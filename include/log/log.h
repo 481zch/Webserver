@@ -36,12 +36,12 @@ struct Day {
 
     std::string transToString() {
         std::ostringstream oss;
-        oss << std::setw(4) << std::setfill('0') << year << "-"
-            << std::setw(2) << std::setfill('0') << month << "-"
+        oss << std::setw(4) << std::setfill('0') << (year + 1900) << "-"
+            << std::setw(2) << std::setfill('0') << (month + 1) << "-"
             << std::setw(2) << std::setfill('0') << day << " "
             << std::setw(2) << std::setfill('0') << hour << ":"
             << std::setw(2) << std::setfill('0') << minute << ":"
-            << std::setw(2) << std::setfill('0') << seconds << ".";
+            << std::setw(2) << std::setfill('0') << seconds << " ";
         return oss.str();
     }
 };
