@@ -37,43 +37,41 @@ Log::~Log()
     }
 }
 
-void Log::LOG_RECORD(int level, const char *format, ...)
-{
-    std::unique_lock<std::mutex> lock(m_mtx);
-    if (!m_isClose) {
-        va_list args;
-        va_start(args, format);
-        write(level, format, args);
-        va_end(args);
-    }
-}
-
 void Log::FlushLogThread()
 {
     Log::getInstance()->asyncWrite();
 }
 
+bool Log::isClosed()
+{
+    std::unique_lock<std::mutex> lock(m_mtx);
+    return m_isClose;
+}
+
 // 需要对日志写入记录,不能够大于1024
-void Log::write(int level, const char *format, va_list args)
+void Log::write(int level, const char *format, ...)
 {
     Day temp = getToday();
     char message[1024];
 
-    if ((temp != m_today) || (m_lineCount >= MAX_LINES)) {
+    if ((temp != m_today) || (m_lineCount >= MAX_LINES))
         changeFile();
-    }
 
+    va_list args;
+    va_start(args, format);
     {
+        std::unique_lock<std::mutex> lock(m_mtx);
         ++m_lineCount;
-
-        m_buff.Append(m_today.transToString());
+        
+        m_buff.Append(m_today.transToString(), &err);
         appendLogLevelTitle(level);
         vsnprintf(message, sizeof(message), format, args);
-        m_buff.Append(message);
-        m_buff.Append("\n");
+        m_buff.Append(message, &err);
+        m_buff.Append("\n", &err);
 
         m_deque->push_back(m_buff.getReadableBytes());
     }
+    va_end(args);
 }
 
 void Log::asyncWrite()
@@ -89,19 +87,19 @@ void Log::appendLogLevelTitle(int level)
 {
     switch(level) {
     case 0:
-        m_buff.Append("[debug]: ", 9);
+        m_buff.Append("[debug]: ", 9, &err);
         break;
     case 1:
-        m_buff.Append("[info] : ", 9);
+        m_buff.Append("[info] : ", 9, &err);
         break;
     case 2:
-        m_buff.Append("[warn] : ", 9);
+        m_buff.Append("[warn] : ", 9, &err);
         break;
     case 3:
-        m_buff.Append("[error]: ", 9);
+        m_buff.Append("[error]: ", 9, &err);
         break;
     default:
-        m_buff.Append("[info] : ", 9);
+        m_buff.Append("[info] : ", 9, &err);
         break;
     }
 }

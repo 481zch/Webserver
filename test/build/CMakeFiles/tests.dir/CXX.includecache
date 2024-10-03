@@ -11,8 +11,6 @@ iostream
 -
 vector
 -
-atomic
--
 unistd.h
 -
 
@@ -52,22 +50,6 @@ buffer/buffer.h
 blockqueue.h
 ../../include/log/blockqueue.h
 
-../../include/timer/heapTimer.h
-iostream
--
-algorithm
--
-vector
--
-functional
--
-unordered_map
--
-time.h
--
-chrono
--
-
 /project/webserver/src/buffer/buffer.cpp
 buffer/buffer.h
 /project/webserver/src/buffer/buffer/buffer.h
@@ -79,16 +61,6 @@ sys/uio.h
 /project/webserver/src/log/log.cpp
 log/log.h
 /project/webserver/src/log/log/log.h
-
-/project/webserver/src/main.cpp
-
-/project/webserver/src/server/epoller.cpp
-
-/project/webserver/src/server/webserver.cpp
-
-/project/webserver/src/timer/heapTimer.cpp
-timer/heapTimer.h
-/project/webserver/src/timer/timer/heapTimer.h
 
 /project/webserver/test/code/test_log.cpp
 gtest/gtest.h

@@ -204,114 +204,6 @@ project/webserver/src/log/log.cpp.s:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.s
 .PHONY : project/webserver/src/log/log.cpp.s
 
-project/webserver/src/main.o: project/webserver/src/main.cpp.o
-
-.PHONY : project/webserver/src/main.o
-
-# target to build an object file
-project/webserver/src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/main.cpp.o
-.PHONY : project/webserver/src/main.cpp.o
-
-project/webserver/src/main.i: project/webserver/src/main.cpp.i
-
-.PHONY : project/webserver/src/main.i
-
-# target to preprocess a source file
-project/webserver/src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/main.cpp.i
-.PHONY : project/webserver/src/main.cpp.i
-
-project/webserver/src/main.s: project/webserver/src/main.cpp.s
-
-.PHONY : project/webserver/src/main.s
-
-# target to generate assembly for a file
-project/webserver/src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/main.cpp.s
-.PHONY : project/webserver/src/main.cpp.s
-
-project/webserver/src/server/epoller.o: project/webserver/src/server/epoller.cpp.o
-
-.PHONY : project/webserver/src/server/epoller.o
-
-# target to build an object file
-project/webserver/src/server/epoller.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/server/epoller.cpp.o
-.PHONY : project/webserver/src/server/epoller.cpp.o
-
-project/webserver/src/server/epoller.i: project/webserver/src/server/epoller.cpp.i
-
-.PHONY : project/webserver/src/server/epoller.i
-
-# target to preprocess a source file
-project/webserver/src/server/epoller.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/server/epoller.cpp.i
-.PHONY : project/webserver/src/server/epoller.cpp.i
-
-project/webserver/src/server/epoller.s: project/webserver/src/server/epoller.cpp.s
-
-.PHONY : project/webserver/src/server/epoller.s
-
-# target to generate assembly for a file
-project/webserver/src/server/epoller.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/server/epoller.cpp.s
-.PHONY : project/webserver/src/server/epoller.cpp.s
-
-project/webserver/src/server/webserver.o: project/webserver/src/server/webserver.cpp.o
-
-.PHONY : project/webserver/src/server/webserver.o
-
-# target to build an object file
-project/webserver/src/server/webserver.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/server/webserver.cpp.o
-.PHONY : project/webserver/src/server/webserver.cpp.o
-
-project/webserver/src/server/webserver.i: project/webserver/src/server/webserver.cpp.i
-
-.PHONY : project/webserver/src/server/webserver.i
-
-# target to preprocess a source file
-project/webserver/src/server/webserver.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/server/webserver.cpp.i
-.PHONY : project/webserver/src/server/webserver.cpp.i
-
-project/webserver/src/server/webserver.s: project/webserver/src/server/webserver.cpp.s
-
-.PHONY : project/webserver/src/server/webserver.s
-
-# target to generate assembly for a file
-project/webserver/src/server/webserver.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/server/webserver.cpp.s
-.PHONY : project/webserver/src/server/webserver.cpp.s
-
-project/webserver/src/timer/heapTimer.o: project/webserver/src/timer/heapTimer.cpp.o
-
-.PHONY : project/webserver/src/timer/heapTimer.o
-
-# target to build an object file
-project/webserver/src/timer/heapTimer.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/timer/heapTimer.cpp.o
-.PHONY : project/webserver/src/timer/heapTimer.cpp.o
-
-project/webserver/src/timer/heapTimer.i: project/webserver/src/timer/heapTimer.cpp.i
-
-.PHONY : project/webserver/src/timer/heapTimer.i
-
-# target to preprocess a source file
-project/webserver/src/timer/heapTimer.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/timer/heapTimer.cpp.i
-.PHONY : project/webserver/src/timer/heapTimer.cpp.i
-
-project/webserver/src/timer/heapTimer.s: project/webserver/src/timer/heapTimer.cpp.s
-
-.PHONY : project/webserver/src/timer/heapTimer.s
-
-# target to generate assembly for a file
-project/webserver/src/timer/heapTimer.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/timer/heapTimer.cpp.s
-.PHONY : project/webserver/src/timer/heapTimer.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -330,18 +222,6 @@ help:
 	@echo "... project/webserver/src/log/log.o"
 	@echo "... project/webserver/src/log/log.i"
 	@echo "... project/webserver/src/log/log.s"
-	@echo "... project/webserver/src/main.o"
-	@echo "... project/webserver/src/main.i"
-	@echo "... project/webserver/src/main.s"
-	@echo "... project/webserver/src/server/epoller.o"
-	@echo "... project/webserver/src/server/epoller.i"
-	@echo "... project/webserver/src/server/epoller.s"
-	@echo "... project/webserver/src/server/webserver.o"
-	@echo "... project/webserver/src/server/webserver.i"
-	@echo "... project/webserver/src/server/webserver.s"
-	@echo "... project/webserver/src/timer/heapTimer.o"
-	@echo "... project/webserver/src/timer/heapTimer.i"
-	@echo "... project/webserver/src/timer/heapTimer.s"
 .PHONY : help
 
 

@@ -7,10 +7,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/project/webserver/test/code/test_log.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/code/test_log.cpp.o"
   "/project/webserver/src/buffer/buffer.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o"
   "/project/webserver/src/log/log.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o"
-  "/project/webserver/src/main.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/project/webserver/src/main.cpp.o"
-  "/project/webserver/src/server/epoller.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/project/webserver/src/server/epoller.cpp.o"
-  "/project/webserver/src/server/webserver.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/project/webserver/src/server/webserver.cpp.o"
-  "/project/webserver/src/timer/heapTimer.cpp" "/project/webserver/test/build/CMakeFiles/tests.dir/project/webserver/src/timer/heapTimer.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

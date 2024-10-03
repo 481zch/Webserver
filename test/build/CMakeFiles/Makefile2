@@ -74,12 +74,12 @@ clean: CMakeFiles/tests.dir/clean
 CMakeFiles/tests.dir/all:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=1,2,3,4 "Built target tests"
 .PHONY : CMakeFiles/tests.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /project/webserver/test/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /project/webserver/test/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /project/webserver/test/build/CMakeFiles 0
 .PHONY : CMakeFiles/tests.dir/rule

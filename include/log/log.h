@@ -49,8 +49,9 @@ struct Day {
 class Log {
 public:
     static Log* getInstance();
-    void LOG_RECORD(int level, const char* format, ...);
-    static void FlushLogThread();
+    static void FlushLogThread(); 
+    bool isClosed();
+    void write(int level, const char* format, ...);
 
 private:
     CircleBuffer m_buff;
@@ -59,6 +60,7 @@ private:
     std::unique_ptr<std::thread> m_writeThread;
     std::mutex m_mtx;
     bool m_isClose;
+    int err;
 
     size_t MAX_LINES;
     size_t m_lineCount;
@@ -71,8 +73,7 @@ private:
     ~Log();
     Log(const Log&) = delete;
     Log& operator=(Log&) = delete;
-
-    void write(int level, const char* format, va_list args);
+    
     void asyncWrite();
     void appendLogLevelTitle(int level);
 
@@ -80,3 +81,16 @@ private:
     void changeFile();
     Day getToday();
 };
+
+#define LOG_DEBUG(format, ...) do {LOG_BASE(0, format, ##__VA_ARGS__)} while(0);    
+#define LOG_INFO(format, ...) do {LOG_BASE(1, format, ##__VA_ARGS__)} while(0);
+#define LOG_WARN(format, ...) do {LOG_BASE(2, format, ##__VA_ARGS__)} while(0);
+#define LOG_ERROR(format, ...) do {LOG_BASE(3, format, ##__VA_ARGS__)} while(0);
+
+#define LOG_BASE(level, format, ...) \
+    do {\
+        Log* log = Log::getInstance();\
+        if (!log->isClosed()) {\
+            log->write(level, format, ##__VA_ARGS__); \
+        }\
+    } while(0);

@@ -11,7 +11,9 @@ include_directories(../include)
 # 查找测试文件
 file(GLOB_RECURSE TEST_SRC_LIST "code/test_log.cpp")
 # 查找项目实现文件
-file(GLOB_RECURSE SRC_LIST "../src/*.cpp")
+file(GLOB_RECURSE LOG_SOURCES "../src/log/*.cpp")
+file(GLOB_RECURSE BUFFER_SOURCES "../src/buffer/*.cpp")
+set(SRC_LIST ${LOG_SOURCES} ${BUFFER_SOURCES})
 
 # 设置测试二进制文件的输出路径
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)

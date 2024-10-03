@@ -14,12 +14,3 @@ CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o
  ../../include/log/blockqueue.h
  ../../include/log/log.h
  /project/webserver/src/log/log.cpp
-CMakeFiles/tests.dir/project/webserver/src/main.cpp.o
- /project/webserver/src/main.cpp
-CMakeFiles/tests.dir/project/webserver/src/server/epoller.cpp.o
- /project/webserver/src/server/epoller.cpp
-CMakeFiles/tests.dir/project/webserver/src/server/webserver.cpp.o
- /project/webserver/src/server/webserver.cpp
-CMakeFiles/tests.dir/project/webserver/src/timer/heapTimer.cpp.o
- ../../include/timer/heapTimer.h
- /project/webserver/src/timer/heapTimer.cpp
