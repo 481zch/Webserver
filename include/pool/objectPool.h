@@ -56,7 +56,7 @@ std::unique_ptr<Obj> ObjectPool<Obj>::acquireObject()
     std::unique_lock<std::mutex> lock(m_mtx);
     m_cond.wait(lock, [this]() {return !m_pool.empty();});
     
-    std::unique_ptr<T> obj = std::move(m_pool.front());
+    std::unique_ptr<Obj> obj = std::move(m_pool.front());
     m_pool.pop();
     return obj;
 }

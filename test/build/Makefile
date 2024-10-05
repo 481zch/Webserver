@@ -123,32 +123,32 @@ tests/fast:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
-code/test_log.o: code/test_log.cpp.o
+code/test_objectPool.o: code/test_objectPool.cpp.o
 
-.PHONY : code/test_log.o
+.PHONY : code/test_objectPool.o
 
 # target to build an object file
-code/test_log.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_log.cpp.o
-.PHONY : code/test_log.cpp.o
+code/test_objectPool.cpp.o:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_objectPool.cpp.o
+.PHONY : code/test_objectPool.cpp.o
 
-code/test_log.i: code/test_log.cpp.i
+code/test_objectPool.i: code/test_objectPool.cpp.i
 
-.PHONY : code/test_log.i
+.PHONY : code/test_objectPool.i
 
 # target to preprocess a source file
-code/test_log.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_log.cpp.i
-.PHONY : code/test_log.cpp.i
+code/test_objectPool.cpp.i:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_objectPool.cpp.i
+.PHONY : code/test_objectPool.cpp.i
 
-code/test_log.s: code/test_log.cpp.s
+code/test_objectPool.s: code/test_objectPool.cpp.s
 
-.PHONY : code/test_log.s
+.PHONY : code/test_objectPool.s
 
 # target to generate assembly for a file
-code/test_log.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_log.cpp.s
-.PHONY : code/test_log.cpp.s
+code/test_objectPool.cpp.s:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_objectPool.cpp.s
+.PHONY : code/test_objectPool.cpp.s
 
 project/webserver/src/buffer/buffer.o: project/webserver/src/buffer/buffer.cpp.o
 
@@ -213,9 +213,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... tests"
-	@echo "... code/test_log.o"
-	@echo "... code/test_log.i"
-	@echo "... code/test_log.s"
+	@echo "... code/test_objectPool.o"
+	@echo "... code/test_objectPool.i"
+	@echo "... code/test_objectPool.s"
 	@echo "... project/webserver/src/buffer/buffer.o"
 	@echo "... project/webserver/src/buffer/buffer.i"
 	@echo "... project/webserver/src/buffer/buffer.s"

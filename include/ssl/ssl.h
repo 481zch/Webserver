@@ -4,20 +4,16 @@
 #include <unistd.h>
 #include <string>
 
-class SSLConnection {
+class SSLServer {
 public:
-    SSLConnection(SSL_CTX* ctx, int clientSocket);
-    ~SSLConnection();
-
+    SSLServer(const char* certFile, const char* keyFile);
+    ~SSLServer();
     bool init();
-
-    ssize_t read(char* buffer, size_t size);
-    ssize_t write(const char* buffer, size_t size);
-
-    void close();
+    SSL_CTX* getCtx() const {return m_ctx;};
+    bool SSLGetConnection(int clientSocket, SSL* ssl);
 
 private:
-    SSL* m_ssl;
-    int m_clientSocket;
     SSL_CTX* m_ctx;
+    const char* m_certFile;
+    const char* m_keyFile;
 };

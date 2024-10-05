@@ -95,7 +95,6 @@ void ConnectionPool<T>::returnConnection(std::shared_ptr<T> conn)
     cond.notify_one();
 }
 
-
 // MYSQL连接池的继承实现
 MySQLConnectionPool::MySQLConnectionPool(const std::string &host, const std::string &user, 
             const std::string &dbname, unsigned int port):

@@ -57,18 +57,18 @@ include CMakeFiles/tests.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/tests.dir/flags.make
 
-CMakeFiles/tests.dir/code/test_log.cpp.o: CMakeFiles/tests.dir/flags.make
-CMakeFiles/tests.dir/code/test_log.cpp.o: ../code/test_log.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/code/test_log.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/code/test_log.cpp.o -c /project/webserver/test/code/test_log.cpp
+CMakeFiles/tests.dir/code/test_objectPool.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/code/test_objectPool.cpp.o: ../code/test_objectPool.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/code/test_objectPool.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/code/test_objectPool.cpp.o -c /project/webserver/test/code/test_objectPool.cpp
 
-CMakeFiles/tests.dir/code/test_log.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/code/test_log.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /project/webserver/test/code/test_log.cpp > CMakeFiles/tests.dir/code/test_log.cpp.i
+CMakeFiles/tests.dir/code/test_objectPool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/code/test_objectPool.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /project/webserver/test/code/test_objectPool.cpp > CMakeFiles/tests.dir/code/test_objectPool.cpp.i
 
-CMakeFiles/tests.dir/code/test_log.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/code/test_log.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/test/code/test_log.cpp -o CMakeFiles/tests.dir/code/test_log.cpp.s
+CMakeFiles/tests.dir/code/test_objectPool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/code/test_objectPool.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/test/code/test_objectPool.cpp -o CMakeFiles/tests.dir/code/test_objectPool.cpp.s
 
 CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o: /project/webserver/src/log/log.cpp
@@ -98,14 +98,14 @@ CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.s: cmake_force
 
 # Object files for target tests
 tests_OBJECTS = \
-"CMakeFiles/tests.dir/code/test_log.cpp.o" \
+"CMakeFiles/tests.dir/code/test_objectPool.cpp.o" \
 "CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o" \
 "CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o"
 
 # External object files for target tests
 tests_EXTERNAL_OBJECTS =
 
-../bin/tests: CMakeFiles/tests.dir/code/test_log.cpp.o
+../bin/tests: CMakeFiles/tests.dir/code/test_objectPool.cpp.o
 ../bin/tests: CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o
 ../bin/tests: CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o
 ../bin/tests: CMakeFiles/tests.dir/build.make
