@@ -3,6 +3,7 @@
 #include <openssl/err.h>
 #include <unistd.h>
 #include <string>
+#include "buffer/buffer.h"
 
 class SSLServer {
 public:
@@ -10,7 +11,7 @@ public:
     ~SSLServer();
     bool init();
     SSL_CTX* getCtx() const {return m_ctx;};
-    bool SSLGetConnection(int clientSocket, SSL* ssl);
+    bool SSLGetConnection(int clientSocket, SSL* &ssl);
 
 private:
     SSL_CTX* m_ctx;

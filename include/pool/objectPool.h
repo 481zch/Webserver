@@ -16,7 +16,9 @@ const int defaultSize = 50;
 template <typename Obj>
 class ObjectPool{
 public:
-    ObjectPool(size_t poolSize = defaultSize);
+    template<typename... Args>
+    ObjectPool(Args&&... args, size_t poolSize = defaultSize);
+
     ObjectPool(const ObjectPool&) = delete;
     ObjectPool& operator=(ObjectPool&) = delete;
     static ObjectPool<Obj>* getInstance();
@@ -25,8 +27,6 @@ public:
     void releaseObject(std::unique_ptr<Obj> obj);
 
 private:
-    static ObjectPool<Obj>* instance;  
-
     std::queue<std::unique_ptr<Obj>> m_pool;
     std::mutex m_mtx;
     std::condition_variable m_cond;
@@ -34,13 +34,11 @@ private:
 
 
 template <typename Obj>
-ObjectPool<Obj>* ObjectPool<Obj>::instance = new ObjectPool();
-
-template <typename Obj>
-inline ObjectPool<Obj>::ObjectPool(size_t poolSize)
+template<typename... Args>
+inline ObjectPool<Obj>::ObjectPool(Args&&... args, size_t poolSize)
 {
     for (size_t i = 0; i < poolSize; ++ i) {
-        m_pool.push(std::make_unique<Obj>());
+        m_pool.push(std::make_unique<Obj>(std::forward<Args>(args)...));
     }
 }
 

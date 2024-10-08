@@ -58,6 +58,24 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "buffer": "cpp",
-        "netfwd": "cpp"
+        "netfwd": "cpp",
+        "executor": "cpp",
+        "forward_list": "cpp",
+        "io_context": "cpp",
+        "timer": "cpp",
+        "codecvt": "cpp",
+        "format": "cpp",
+        "bitset": "cpp",
+        "charconv": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "unordered_set": "cpp",
+        "regex": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "shared_mutex": "cpp",
+        "span": "cpp",
+        "stop_token": "cpp",
+        "variant": "cpp"
     }
 }

@@ -81,4 +81,3 @@ bool SSLServer::SSLGetConnection(int clientSocket, SSL *&ssl)
     LOG_INFO("SSL handshake successful for client socket: %d", clientSocket);
     return true;
 }
-

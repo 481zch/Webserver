@@ -4,29 +4,23 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <unordered_map>
+#include <iostream>
 
 #include "pool/connectPool.h"
 #include "pool/objectPool.h"
 #include "pool/threadPool.h"
-#include "http/httpsConnect.h"
+#include "http/httpConnect.h"
 #include "timer/heapTimer.h"
 #include "log/log.h"
 #include "ssl/ssl.h"
 #include "epoller.h"
-
-/*
- 这个里面暂时只支持reactor模式
- 对于proactor模式，使用io_uring或者aio进行完成
- 在另一个文件进行完成
- 默认都是水平触发
- */
 
 class Webserver {
 public:
     Webserver(int threadNum = 10, int connectNum = 10, int objectNum = 10, 
               int port = 1316, int sqlPort = 3306, int redisPort = 6379, const char* host = "192.168.19.133",
               const char* dbName = "webserverDB", const char* sqlUser = "root", const char* sqlPwd = "123456",
-              int timeoutMS = 60000, int MAX_FD, size_t userCount = 0, 
+              int timeoutMS = 60000, int MAX_FD = 65535, size_t userCount = 0,
               const char* certFile = "../../sslCertFile/certFile.pem", const char* keyFile = "../../sslCertFile/keyFile.pem");
     ~Webserver();
     void eventLoop();
@@ -34,8 +28,8 @@ public:
 
 private:
     std::unique_ptr<ThreadPool> m_threadPool;
-    std::unique_ptr<MySQLConnectionPool> m_sqlConnectPool;
-    std::unique_ptr<RedisConnectionPool> m_redisConnectPool;
+    std::shared_ptr<MySQLConnectionPool> m_sqlConnectPool;
+    std::shared_ptr<RedisConnectionPool> m_redisConnectPool;
     std::unique_ptr<ObjectPool<HttpConnect>> m_objectPool;
 
     std::unique_ptr<HeapTimer> m_timer;
@@ -58,6 +52,7 @@ private:
     int setFdNonBlock(int fd);
     void initEventMode(); // 初始化客户端监听和连接的触发模式
     void extentTime(HttpConnect* client);
+    void initRescourceDir();
 
     void dealListen();
     void closeConn(HttpConnect* client);

@@ -20,7 +20,7 @@ ssize_t CircleBuffer::readOut(int fd)
     }
 }
 
-ssize_t CircleBuffer::writeIn(int fd, int* Errno)
+ssize_t CircleBuffer::writeIn(int fd)
 {
     char buff[65536];
     struct iovec iov[3];
@@ -44,8 +44,7 @@ ssize_t CircleBuffer::writeIn(int fd, int* Errno)
     iov[2].iov_len = sizeof(buff);
 
     ssize_t len = readv(fd, iov, 3);
-    if (len < 0) {
-        *Errno = EAGAIN;
+    if (len <= 0) {
         return -1;
     }
 
@@ -55,35 +54,34 @@ ssize_t CircleBuffer::writeIn(int fd, int* Errno)
     } else if (static_cast<size_t>(len) <= iov[0].iov_len + iov[1].iov_len) {
         m_writePos = iov[0].iov_len + iov[1].iov_len - len;
     } else {
-        if (m_buffer.size() - 1 >= len) *Errno = EAGAIN;
-        else *Errno = ENOMEM;
+        if (m_buffer.size() - 1 >= len) ;
+        else ;
         return -1;
     }
 
-    *Errno = 0;
     return len;
 }
 
-void CircleBuffer::Append(const std::string &str, int* Errno)
+void CircleBuffer::Append(const std::string &str)
 {
-    Append(str.c_str(), str.size(), Errno);
+    Append(str.c_str(), str.size());
 }
 
-void CircleBuffer::Append(const void *data, size_t len, int* Errno)
+void CircleBuffer::Append(const void *data, size_t len)
 {
-    Append(static_cast<const char*>(data), len, Errno);
+    Append(static_cast<const char*>(data), len);
 }
 
-void CircleBuffer::Append(const CircleBuffer &buff, int* Errno)
+void CircleBuffer::Append(const CircleBuffer &buff)
 {
-    Append(buff.readAddress(), buff.readableBytes(), Errno);
+    Append(buff.readAddress(), buff.readableBytes());
 }
 
-void CircleBuffer::Append(const char *str, size_t len, int* Errno)
+void CircleBuffer::Append(const char *str, size_t len)
 {
     assert(str);
-    ensureWriteable(len, Errno);
-    if (*Errno != 0) return;
+    ensureWriteable(len, &Errno);
+    if (Errno != 0) return;
     writeToBuffer(str, len);
 }
 
@@ -107,7 +105,7 @@ std::string CircleBuffer::getReadableBytes()
     }
 }
 
-std::string CircleBuffer::getByEndBytes(int* Errno)
+std::string CircleBuffer::getByEndBytes()
 {
     std::string res;
     size_t endPos = 0;
@@ -118,7 +116,6 @@ std::string CircleBuffer::getByEndBytes(int* Errno)
             // 找到结束符，提取数据并更新读指针
             res = data.substr(0, endPos + m_end.length());
             m_readPos += res.size();
-            *Errno = 0;
             return res;
         }
     } else if (m_readPos > m_writePos) {
@@ -140,12 +137,10 @@ std::string CircleBuffer::getByEndBytes(int* Errno)
                 res = data_right + data_left.substr(0, remaing_left);
                 m_readPos = remaing_left;
             }
-            *Errno = 0;
             return res;
         }
     }
 
-    *Errno = EAGAIN;
     return res;
 }
 

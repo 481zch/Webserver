@@ -6,15 +6,12 @@ Webserver::Webserver(int threadNum, int connectNum, int objectNum,
                     const char *dbName, const char *sqlUser, const char *sqlPwd,
                     int timeoutMS, int MAX_FD, size_t userCount, const char* certFile, const char* keyFile):
                     m_threadPool(new ThreadPool(threadNum)), m_sqlConnectPool(new MySQLConnectionPool(host, sqlUser, dbName, sqlPort)),
-                    m_redisConnectPool(new RedisConnectionPool(host, redisPort)), m_objectPool(new ObjectPool<HttpConnect>(objectNum)),
+                    m_redisConnectPool(new RedisConnectionPool(host, redisPort)),
                     m_timer(new HeapTimer), m_SSL(new SSLServer(certFile, keyFile)), m_timeoutMS(timeoutMS), MAX_FD(MAX_FD), m_userCount(userCount)
 {
     LOG_INFO("========== Server init ==========");
-    // 资源目录初始化
-    m_srcDir = getcwd(nullptr, 256);
-    assert(m_srcDir);
-
     initEventMode();
+    m_objectPool = std::make_unique<ObjectPool<HttpConnect>>(m_sqlConnectPool, m_redisConnectPool, objectNum);
     if (!initSocket()) {
         m_stop = true;
         LOG_ERROR("Socket init error!");
@@ -32,6 +29,7 @@ Webserver::~Webserver()
     close(m_listenFd);
     m_stop = true;
     m_threadPool->shutdown();
+    delete[] m_srcDir;
 }
 
 void Webserver::eventLoop()
@@ -97,6 +95,8 @@ void Webserver::closeConn(HttpConnect *client)
     LOG_INFO("Client[%d] quit!", client->getFd());
     m_epoller->DelFd(client->getFd());
     mp_users.erase(client->getFd());
+    SSL_shutdown(client->getSSL());
+    SSL_free(client->getSSL());
     m_objectPool->releaseObject(std::unique_ptr<HttpConnect>(client));
     -- m_userCount;
 }
@@ -206,6 +206,27 @@ int Webserver::setFdNonBlock(int fd)
     return fcntl(fd, F_SETFL, fcntl(fd, F_GETFL, 0) | O_NONBLOCK);
 }
 
+void Webserver::initRescourceDir()
+{
+    char currentPath[256];
+    if (getcwd(currentPath, sizeof(currentPath)) == nullptr) {
+        LOG_ERROR("Get resource directory fail!");
+        return;
+    }
+
+    std::string path(currentPath);
+    size_t pos = path.find_last_of('/');
+    if (pos != std::string::npos) {
+        path = path.substr(0, pos);
+    }
+
+    path += "/resource";
+
+    m_srcDir = new char[path.size() + 1];
+    strcpy(m_srcDir, path.c_str());
+}
+
+
 void Webserver::initEventMode()
 {
     m_connEvent |= EPOLLET;
@@ -225,7 +246,7 @@ void Webserver::onRead(HttpConnect *client)
     assert(client);
     int ret = -1;
     int readErrno = 0;
-    ret - client->read(&readErrno);
+    ret = client->read(&readErrno);
     if (ret <= 0 && readErrno != EAGAIN) {
         closeConn(client);
         return;
@@ -239,12 +260,13 @@ void Webserver::onWrite(HttpConnect *client)
     int ret = -1;
     int writeErrno = 0;
     ret = client->write(&writeErrno);
-    if (client->ToWriteBytes() == 0) {
-        if (client->IsKeepAlive()) {
+    if (client->toWriteBytes() == 0) {
+        if (client->isKeepAlive()) {
             m_epoller->ModFd(client->getFd(), m_connEvent | EPOLLIN);
             return;
         }
     } else if (ret < 0) {
+        // 继续传输
         if (writeErrno == EAGAIN) {
             m_epoller->ModFd(client->getFd(), m_connEvent | EPOLLOUT);
             return;
