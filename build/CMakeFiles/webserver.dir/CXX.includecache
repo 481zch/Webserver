@@ -14,7 +14,49 @@ vector
 unistd.h
 -
 
-../include/http/httpsConnect.h
+../include/http/httpConnect.h
+netinet/in.h
+-
+log/log.h
+../include/http/log/log.h
+ssl/ssl.h
+../include/http/ssl/ssl.h
+buffer/buffer.h
+../include/http/buffer/buffer.h
+http/httpRequest.h
+../include/http/http/httpRequest.h
+http/httpResponse.h
+../include/http/http/httpResponse.h
+
+../include/http/httpRequest.h
+unordered_map
+-
+unordered_set
+-
+regex
+-
+buffer/buffer.h
+../include/http/buffer/buffer.h
+log/log.h
+../include/http/log/log.h
+pool/connectPool.h
+../include/http/pool/connectPool.h
+
+../include/http/httpResponse.h
+unordered_map
+-
+fcntl.h
+-
+unistd.h
+-
+sys/stat.h
+-
+sys/mman.h
+-
+buffer/buffer.h
+../include/http/buffer/buffer.h
+log/log.h
+../include/http/log/log.h
 
 ../include/log/blockqueue.h
 deque
@@ -131,14 +173,12 @@ unordered_map
 -
 iostream
 -
-pool/connectPool.h
-../include/server/pool/connectPool.h
 pool/objectPool.h
 ../include/server/pool/objectPool.h
 pool/threadPool.h
 ../include/server/pool/threadPool.h
-http/httpsConnect.h
-../include/server/http/httpsConnect.h
+http/httpConnect.h
+../include/server/http/httpConnect.h
 timer/heapTimer.h
 ../include/server/timer/heapTimer.h
 log/log.h
@@ -157,6 +197,8 @@ unistd.h
 -
 string
 -
+buffer/buffer.h
+../include/ssl/buffer/buffer.h
 
 ../include/timer/heapTimer.h
 iostream
@@ -174,6 +216,12 @@ time.h
 chrono
 -
 
+../include/util/util.h
+string
+-
+iostream
+-
+
 /project/webserver/src/buffer/buffer.cpp
 buffer/buffer.h
 /project/webserver/src/buffer/buffer/buffer.h
@@ -181,6 +229,20 @@ assert.h
 -
 sys/uio.h
 -
+
+/project/webserver/src/http/httpConnect.cpp
+http/httpConnect.h
+/project/webserver/src/http/http/httpConnect.h
+
+/project/webserver/src/http/httpRequest.cpp
+http/httpRequest.h
+/project/webserver/src/http/http/httpRequest.h
+util/util.h
+/project/webserver/src/http/util/util.h
+
+/project/webserver/src/http/httpResponse.cpp
+http/httpResponse.h
+/project/webserver/src/http/http/httpResponse.h
 
 /project/webserver/src/log/log.cpp
 log/log.h
@@ -194,6 +256,10 @@ string.h
 server/webserver.h
 /project/webserver/src/server/webserver.h
 
+/project/webserver/src/pool/connectPool.cpp
+pool/connectPool.h
+/project/webserver/src/pool/pool/connectPool.h
+
 /project/webserver/src/server/epoller.cpp
 server/epoller.h
 /project/webserver/src/server/server/epoller.h
@@ -202,8 +268,6 @@ server/epoller.h
 server/webserver.h
 /project/webserver/src/server/server/webserver.h
 string.h
--
-filesystem
 -
 
 /project/webserver/src/ssl/ssl.cpp

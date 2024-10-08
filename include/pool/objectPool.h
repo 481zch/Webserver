@@ -17,11 +17,10 @@ template <typename Obj>
 class ObjectPool{
 public:
     template<typename... Args>
-    ObjectPool(Args&&... args, size_t poolSize = defaultSize);
+    ObjectPool(size_t poolSize = defaultSize, Args&&... args);
 
     ObjectPool(const ObjectPool&) = delete;
     ObjectPool& operator=(ObjectPool&) = delete;
-    static ObjectPool<Obj>* getInstance();
 
     std::unique_ptr<Obj> acquireObject();
     void releaseObject(std::unique_ptr<Obj> obj);
@@ -35,17 +34,11 @@ private:
 
 template <typename Obj>
 template<typename... Args>
-inline ObjectPool<Obj>::ObjectPool(Args&&... args, size_t poolSize)
+inline ObjectPool<Obj>::ObjectPool(size_t poolSize, Args&&... args)
 {
     for (size_t i = 0; i < poolSize; ++ i) {
         m_pool.push(std::make_unique<Obj>(std::forward<Args>(args)...));
     }
-}
-
-template <typename Obj>
-ObjectPool<Obj>* ObjectPool<Obj>::getInstance()
-{
-    return instance;
 }
 
 template <typename Obj>

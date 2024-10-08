@@ -6,7 +6,6 @@
 #include <unordered_map>
 #include <iostream>
 
-#include "pool/connectPool.h"
 #include "pool/objectPool.h"
 #include "pool/threadPool.h"
 #include "http/httpConnect.h"
@@ -50,7 +49,7 @@ private:
 
     bool initSocket();
     int setFdNonBlock(int fd);
-    void initEventMode(); // 初始化客户端监听和连接的触发模式
+    void initEventMode();
     void extentTime(HttpConnect* client);
     void initRescourceDir();
 
@@ -58,7 +57,7 @@ private:
     void closeConn(HttpConnect* client);
     void dealRead(HttpConnect* client);
     void dealWrite(HttpConnect* client);
-    void onProcess(HttpConnect* client);   // 业务逻辑的处理
+    void onProcess(HttpConnect* client);
     void sendError(int fd, const char* info);
 
     void addClient(int fd, sockaddr_in addr, SSL* ssl);

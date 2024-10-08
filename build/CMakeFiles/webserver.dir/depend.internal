@@ -4,6 +4,30 @@
 CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o
  ../include/buffer/buffer.h
  /project/webserver/src/buffer/buffer.cpp
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o
+ ../include/buffer/buffer.h
+ ../include/http/httpConnect.h
+ ../include/http/httpRequest.h
+ ../include/http/httpResponse.h
+ ../include/log/blockqueue.h
+ ../include/log/log.h
+ ../include/pool/connectPool.h
+ ../include/ssl/ssl.h
+ /project/webserver/src/http/httpConnect.cpp
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o
+ ../include/buffer/buffer.h
+ ../include/http/httpRequest.h
+ ../include/log/blockqueue.h
+ ../include/log/log.h
+ ../include/pool/connectPool.h
+ ../include/util/util.h
+ /project/webserver/src/http/httpRequest.cpp
+CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o
+ ../include/buffer/buffer.h
+ ../include/http/httpResponse.h
+ ../include/log/blockqueue.h
+ ../include/log/log.h
+ /project/webserver/src/http/httpResponse.cpp
 CMakeFiles/webserver.dir/src/log/log.cpp.o
  ../include/buffer/buffer.h
  ../include/log/blockqueue.h
@@ -11,7 +35,9 @@ CMakeFiles/webserver.dir/src/log/log.cpp.o
  /project/webserver/src/log/log.cpp
 CMakeFiles/webserver.dir/src/main.cpp.o
  ../include/buffer/buffer.h
- ../include/http/httpsConnect.h
+ ../include/http/httpConnect.h
+ ../include/http/httpRequest.h
+ ../include/http/httpResponse.h
  ../include/log/blockqueue.h
  ../include/log/log.h
  ../include/pool/connectPool.h
@@ -22,12 +48,17 @@ CMakeFiles/webserver.dir/src/main.cpp.o
  ../include/ssl/ssl.h
  ../include/timer/heapTimer.h
  /project/webserver/src/main.cpp
+CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o
+ ../include/pool/connectPool.h
+ /project/webserver/src/pool/connectPool.cpp
 CMakeFiles/webserver.dir/src/server/epoller.cpp.o
  ../include/server/epoller.h
  /project/webserver/src/server/epoller.cpp
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o
  ../include/buffer/buffer.h
- ../include/http/httpsConnect.h
+ ../include/http/httpConnect.h
+ ../include/http/httpRequest.h
+ ../include/http/httpResponse.h
  ../include/log/blockqueue.h
  ../include/log/log.h
  ../include/pool/connectPool.h

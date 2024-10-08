@@ -186,7 +186,41 @@ public:
     }
 
 private:
-    void resizePool();
+    void resizePool() {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        size_t task_num = m_queue.size();
+        size_t cur_threads = lst_threads.size();
+
+        // 扩展线程池
+        if (task_num > work_nums && cur_threads < max_threads)
+        {
+            size_t add_threads = std::min(max_threads - cur_threads, task_num - work_nums);
+            for (size_t i = 0; i < add_threads; ++i)
+            {
+                auto it = lst_threads.emplace(lst_threads.end(), std::thread(ThreadWorker(this)));
+                mp[it->get_id()] = it;
+                ++sleep_nums;
+            }
+            LOG_INFO("Add thread nums: %d", add_threads);
+            return;
+        }
+
+        // 收缩线程池
+        if (work_nums < sleep_nums && cur_threads > min_threads)
+        {
+            size_t remove_threads = cur_threads - std::max(2 * task_num, (size_t)min_threads);
+            size_t temp = std::min((size_t)sleep_nums, cur_threads - min_threads);
+            remove_threads = std::min(temp, remove_threads);
+
+            for (size_t i = 0; i < remove_threads; ++i)
+            {
+                m_conditional_lock.notify_one();
+            }
+            LOG_INFO("Remove thread nums: %d", remove_threads);
+            return;
+        }
+    }
+
     void timer_function() {
         while (!m_shutdown) {
             std::this_thread::sleep_for(timer_interval);
@@ -194,39 +228,3 @@ private:
         }
     }
 };
-
-void ThreadPool::resizePool()
-{
-    std::unique_lock<std::mutex> lock(m_mutex);
-    size_t task_num = m_queue.size();
-    size_t cur_threads = lst_threads.size();
-
-    // 扩展线程池
-    if (task_num > work_nums && cur_threads < max_threads)
-    {
-        size_t add_threads = std::min(max_threads - cur_threads, task_num - work_nums);
-        for (size_t i = 0; i < add_threads; ++i)
-        {
-            auto it = lst_threads.emplace(lst_threads.end(), std::thread(ThreadWorker(this)));
-            mp[it->get_id()] = it;
-            ++sleep_nums;
-        }
-        LOG_INFO("Add thread nums: %d", add_threads);
-        return;
-    }
-
-    // 收缩线程池
-    if (work_nums < sleep_nums && cur_threads > min_threads)
-    {
-        size_t remove_threads = cur_threads - std::max(2 * task_num, (size_t)min_threads);
-        size_t temp = std::min((size_t)sleep_nums, cur_threads - min_threads);
-        remove_threads = std::min(temp, remove_threads);
-
-        for (size_t i = 0; i < remove_threads; ++i)
-        {
-            m_conditional_lock.notify_one();
-        }
-        LOG_INFO("Remove thread nums: %d", remove_threads);
-        return;
-    }
-}

@@ -4,13 +4,39 @@
 CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o: ../include/buffer/buffer.h
 CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o: ../src/buffer/buffer.cpp
 
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/buffer/buffer.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/http/httpConnect.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/http/httpRequest.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/http/httpResponse.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/log/blockqueue.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/log/log.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/pool/connectPool.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../include/ssl/ssl.h
+CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../src/http/httpConnect.cpp
+
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../include/buffer/buffer.h
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../include/http/httpRequest.h
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../include/log/blockqueue.h
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../include/log/log.h
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../include/pool/connectPool.h
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../include/util/util.h
+CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../src/http/httpRequest.cpp
+
+CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: ../include/buffer/buffer.h
+CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: ../include/http/httpResponse.h
+CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: ../include/log/blockqueue.h
+CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: ../include/log/log.h
+CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: ../src/http/httpResponse.cpp
+
 CMakeFiles/webserver.dir/src/log/log.cpp.o: ../include/buffer/buffer.h
 CMakeFiles/webserver.dir/src/log/log.cpp.o: ../include/log/blockqueue.h
 CMakeFiles/webserver.dir/src/log/log.cpp.o: ../include/log/log.h
 CMakeFiles/webserver.dir/src/log/log.cpp.o: ../src/log/log.cpp
 
 CMakeFiles/webserver.dir/src/main.cpp.o: ../include/buffer/buffer.h
-CMakeFiles/webserver.dir/src/main.cpp.o: ../include/http/httpsConnect.h
+CMakeFiles/webserver.dir/src/main.cpp.o: ../include/http/httpConnect.h
+CMakeFiles/webserver.dir/src/main.cpp.o: ../include/http/httpRequest.h
+CMakeFiles/webserver.dir/src/main.cpp.o: ../include/http/httpResponse.h
 CMakeFiles/webserver.dir/src/main.cpp.o: ../include/log/blockqueue.h
 CMakeFiles/webserver.dir/src/main.cpp.o: ../include/log/log.h
 CMakeFiles/webserver.dir/src/main.cpp.o: ../include/pool/connectPool.h
@@ -22,11 +48,16 @@ CMakeFiles/webserver.dir/src/main.cpp.o: ../include/ssl/ssl.h
 CMakeFiles/webserver.dir/src/main.cpp.o: ../include/timer/heapTimer.h
 CMakeFiles/webserver.dir/src/main.cpp.o: ../src/main.cpp
 
+CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o: ../include/pool/connectPool.h
+CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o: ../src/pool/connectPool.cpp
+
 CMakeFiles/webserver.dir/src/server/epoller.cpp.o: ../include/server/epoller.h
 CMakeFiles/webserver.dir/src/server/epoller.cpp.o: ../src/server/epoller.cpp
 
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/buffer/buffer.h
-CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/http/httpsConnect.h
+CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/http/httpConnect.h
+CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/http/httpRequest.h
+CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/http/httpResponse.h
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/log/blockqueue.h
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/log/log.h
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../include/pool/connectPool.h

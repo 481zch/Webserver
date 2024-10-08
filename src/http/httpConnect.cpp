@@ -1,5 +1,7 @@
 #include "http/httpConnect.h"
 
+const char* HttpConnect::m_srcDir;
+
 HttpConnect::HttpConnect(std::shared_ptr<MySQLConnectionPool> mysql, std::shared_ptr<RedisConnectionPool> redis)
 {
     m_fd = -1;

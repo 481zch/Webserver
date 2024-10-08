@@ -1,6 +1,8 @@
 #include "server/webserver.h"
 #include <string.h>
 
+std::atomic<bool> Webserver::m_stop = false;
+
 Webserver::Webserver(int threadNum, int connectNum, int objectNum, 
                     int port, int sqlPort, int redisPort, const char* host,
                     const char *dbName, const char *sqlUser, const char *sqlPwd,
@@ -11,7 +13,7 @@ Webserver::Webserver(int threadNum, int connectNum, int objectNum,
 {
     LOG_INFO("========== Server init ==========");
     initEventMode();
-    m_objectPool = std::make_unique<ObjectPool<HttpConnect>>(m_sqlConnectPool, m_redisConnectPool, objectNum);
+    m_objectPool = std::make_unique<ObjectPool<HttpConnect>>(static_cast<size_t>(objectNum), m_sqlConnectPool, m_redisConnectPool);
     if (!initSocket()) {
         m_stop = true;
         LOG_ERROR("Socket init error!");
@@ -19,13 +21,11 @@ Webserver::Webserver(int threadNum, int connectNum, int objectNum,
 
     if (!m_SSL->init()) {
         m_stop = true;
-        LOG_ERROR("SSL init error!");
     }
 }
 
 Webserver::~Webserver()
 {
-    // 构造函数中资源的释放
     close(m_listenFd);
     m_stop = true;
     m_threadPool->shutdown();
@@ -224,6 +224,7 @@ void Webserver::initRescourceDir()
 
     m_srcDir = new char[path.size() + 1];
     strcpy(m_srcDir, path.c_str());
+    HttpConnect::m_srcDir = m_srcDir;
 }
 
 

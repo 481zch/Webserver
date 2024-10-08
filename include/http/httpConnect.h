@@ -5,12 +5,11 @@
 #include "buffer/buffer.h"
 #include "http/httpRequest.h"
 #include "http/httpResponse.h"
-#include "pool/connectPool.h"
 
 class HttpConnect {
 public:
     HttpConnect(std::shared_ptr<MySQLConnectionPool> mysql, std::shared_ptr<RedisConnectionPool> redis);
-    ~HttpConnect();
+    ~HttpConnect() = default;
 
     int getFd() const {return m_fd;}
     SSL* getSSL() const {return m_ssl;}

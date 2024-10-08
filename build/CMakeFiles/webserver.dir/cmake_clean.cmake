@@ -1,13 +1,17 @@
 file(REMOVE_RECURSE
+  "../bin/webserver"
+  "../bin/webserver.pdb"
   "CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o"
+  "CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o"
+  "CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o"
+  "CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o"
   "CMakeFiles/webserver.dir/src/log/log.cpp.o"
   "CMakeFiles/webserver.dir/src/main.cpp.o"
+  "CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o"
   "CMakeFiles/webserver.dir/src/server/epoller.cpp.o"
   "CMakeFiles/webserver.dir/src/server/webserver.cpp.o"
   "CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o"
   "CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o"
-  "bin/webserver"
-  "bin/webserver.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

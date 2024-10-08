@@ -150,6 +150,87 @@ src/buffer/buffer.cpp.s:
 	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/buffer/buffer.cpp.s
 .PHONY : src/buffer/buffer.cpp.s
 
+src/http/httpConnect.o: src/http/httpConnect.cpp.o
+
+.PHONY : src/http/httpConnect.o
+
+# target to build an object file
+src/http/httpConnect.cpp.o:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o
+.PHONY : src/http/httpConnect.cpp.o
+
+src/http/httpConnect.i: src/http/httpConnect.cpp.i
+
+.PHONY : src/http/httpConnect.i
+
+# target to preprocess a source file
+src/http/httpConnect.cpp.i:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpConnect.cpp.i
+.PHONY : src/http/httpConnect.cpp.i
+
+src/http/httpConnect.s: src/http/httpConnect.cpp.s
+
+.PHONY : src/http/httpConnect.s
+
+# target to generate assembly for a file
+src/http/httpConnect.cpp.s:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpConnect.cpp.s
+.PHONY : src/http/httpConnect.cpp.s
+
+src/http/httpRequest.o: src/http/httpRequest.cpp.o
+
+.PHONY : src/http/httpRequest.o
+
+# target to build an object file
+src/http/httpRequest.cpp.o:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o
+.PHONY : src/http/httpRequest.cpp.o
+
+src/http/httpRequest.i: src/http/httpRequest.cpp.i
+
+.PHONY : src/http/httpRequest.i
+
+# target to preprocess a source file
+src/http/httpRequest.cpp.i:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpRequest.cpp.i
+.PHONY : src/http/httpRequest.cpp.i
+
+src/http/httpRequest.s: src/http/httpRequest.cpp.s
+
+.PHONY : src/http/httpRequest.s
+
+# target to generate assembly for a file
+src/http/httpRequest.cpp.s:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpRequest.cpp.s
+.PHONY : src/http/httpRequest.cpp.s
+
+src/http/httpResponse.o: src/http/httpResponse.cpp.o
+
+.PHONY : src/http/httpResponse.o
+
+# target to build an object file
+src/http/httpResponse.cpp.o:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o
+.PHONY : src/http/httpResponse.cpp.o
+
+src/http/httpResponse.i: src/http/httpResponse.cpp.i
+
+.PHONY : src/http/httpResponse.i
+
+# target to preprocess a source file
+src/http/httpResponse.cpp.i:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpResponse.cpp.i
+.PHONY : src/http/httpResponse.cpp.i
+
+src/http/httpResponse.s: src/http/httpResponse.cpp.s
+
+.PHONY : src/http/httpResponse.s
+
+# target to generate assembly for a file
+src/http/httpResponse.cpp.s:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/http/httpResponse.cpp.s
+.PHONY : src/http/httpResponse.cpp.s
+
 src/log/log.o: src/log/log.cpp.o
 
 .PHONY : src/log/log.o
@@ -203,6 +284,33 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/pool/connectPool.o: src/pool/connectPool.cpp.o
+
+.PHONY : src/pool/connectPool.o
+
+# target to build an object file
+src/pool/connectPool.cpp.o:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o
+.PHONY : src/pool/connectPool.cpp.o
+
+src/pool/connectPool.i: src/pool/connectPool.cpp.i
+
+.PHONY : src/pool/connectPool.i
+
+# target to preprocess a source file
+src/pool/connectPool.cpp.i:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/pool/connectPool.cpp.i
+.PHONY : src/pool/connectPool.cpp.i
+
+src/pool/connectPool.s: src/pool/connectPool.cpp.s
+
+.PHONY : src/pool/connectPool.s
+
+# target to generate assembly for a file
+src/pool/connectPool.cpp.s:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/pool/connectPool.cpp.s
+.PHONY : src/pool/connectPool.cpp.s
 
 src/server/epoller.o: src/server/epoller.cpp.o
 
@@ -324,12 +432,24 @@ help:
 	@echo "... src/buffer/buffer.o"
 	@echo "... src/buffer/buffer.i"
 	@echo "... src/buffer/buffer.s"
+	@echo "... src/http/httpConnect.o"
+	@echo "... src/http/httpConnect.i"
+	@echo "... src/http/httpConnect.s"
+	@echo "... src/http/httpRequest.o"
+	@echo "... src/http/httpRequest.i"
+	@echo "... src/http/httpRequest.s"
+	@echo "... src/http/httpResponse.o"
+	@echo "... src/http/httpResponse.i"
+	@echo "... src/http/httpResponse.s"
 	@echo "... src/log/log.o"
 	@echo "... src/log/log.i"
 	@echo "... src/log/log.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/pool/connectPool.o"
+	@echo "... src/pool/connectPool.i"
+	@echo "... src/pool/connectPool.s"
 	@echo "... src/server/epoller.o"
 	@echo "... src/server/epoller.i"
 	@echo "... src/server/epoller.s"
