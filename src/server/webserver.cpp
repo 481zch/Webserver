@@ -8,7 +8,7 @@ Webserver::Webserver(int threadNum, int connectNum, int objectNum,
                     const char *dbName, const char *sqlUser, const char *sqlPwd,
                     int timeoutMS, int MAX_FD, size_t userCount, const char* certFile, const char* keyFile):
                     m_threadPool(new ThreadPool(threadNum)), m_sqlConnectPool(new MySQLConnectionPool(host, sqlUser, dbName, sqlPort)),
-                    m_redisConnectPool(new RedisConnectionPool(host, redisPort)),
+                    m_redisConnectPool(new RedisConnectionPool(host, redisPort)), m_epoller(new Epoller), m_port(port),
                     m_timer(new HeapTimer), m_SSL(new SSLServer(certFile, keyFile)), m_timeoutMS(timeoutMS), MAX_FD(MAX_FD), m_userCount(userCount)
 {
     LOG_INFO("========== Server init ==========");
@@ -29,7 +29,7 @@ Webserver::~Webserver()
     close(m_listenFd);
     m_stop = true;
     m_threadPool->shutdown();
-    delete[] m_srcDir;
+    // delete[] m_srcDir;
 }
 
 void Webserver::eventLoop()

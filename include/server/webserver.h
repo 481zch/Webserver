@@ -17,10 +17,10 @@
 class Webserver {
 public:
     Webserver(int threadNum = 10, int connectNum = 10, int objectNum = 10, 
-              int port = 1316, int sqlPort = 3306, int redisPort = 6379, const char* host = "192.168.19.133",
+              int port = 1317, int sqlPort = 3306, int redisPort = 6379, const char* host = "192.168.19.133",
               const char* dbName = "webserverDB", const char* sqlUser = "root", const char* sqlPwd = "123456",
               int timeoutMS = 60000, int MAX_FD = 65535, size_t userCount = 0,
-              const char* certFile = "../../sslCertFile/certFile.pem", const char* keyFile = "../../sslCertFile/keyFile.pem");
+              const char* certFile = "/project/webserver/sslCertFile/certFile.pem", const char* keyFile = "/project/webserver/sslCertFile/keyFile.pem");
     ~Webserver();
     void eventLoop();
     static void setCloseServer(int) {m_stop = true;}
