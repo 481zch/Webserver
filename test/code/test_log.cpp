@@ -7,11 +7,11 @@
 
 TEST(LogTest, SimePleTest)
 {
-    char day = '5';
-    LOG_INFO("你好世界，今天是周%c", day);
-    LOG_DEBUG("调试中，请勿打扰");
-    LOG_ERROR("出现了错误，(⊙︿⊙)");
-    LOG_WARN("警告，(╥╯^╰╥)");
+    for (int i = 0; i < 10; ++ i) {
+        LOG_INFO("第%d次，停留1秒", i);
+        sleep(1);
+    }
+    // LOG_INFO("hello world");
 }
 
 

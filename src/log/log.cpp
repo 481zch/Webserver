@@ -33,13 +33,22 @@ Log::~Log()
     if (m_fp) {
         std::unique_lock<std::mutex> lock(m_mtx);
         fclose(m_fp);
-        m_fp = nullptr;
     }
 }
 
 void Log::FlushLogThread()
 {
     Log::getInstance()->asyncWrite();
+}
+
+void Log::asyncWrite()
+{
+    std::string str;
+    while (m_deque->pop(str)) {
+        std::unique_lock<std::mutex> lock(m_mtx);
+        fputs(str.c_str(), m_fp);
+        fflush(m_fp);  // 强制刷新文件缓冲区进行写入，也不能太频繁的去刷新
+    }
 }
 
 bool Log::isClosed()
@@ -49,6 +58,7 @@ bool Log::isClosed()
 }
 
 // 需要对日志写入记录,不能够大于1024
+// 没有更新时间，导致都在同一秒了
 void Log::write(int level, const char *format, ...)
 {
     Day temp = getToday();
@@ -63,7 +73,7 @@ void Log::write(int level, const char *format, ...)
         std::unique_lock<std::mutex> lock(m_mtx);
         ++m_lineCount;
         
-        m_buff.Append(m_today.transToString());
+        m_buff.Append(temp.transToString());
         appendLogLevelTitle(level);
         vsnprintf(message, sizeof(message), format, args);
         m_buff.Append(message);
@@ -72,15 +82,6 @@ void Log::write(int level, const char *format, ...)
         m_deque->push_back(m_buff.getReadableBytes());
     }
     va_end(args);
-}
-
-void Log::asyncWrite()
-{
-    std::string str;
-    while (m_deque->pop(str)) {
-        std::unique_lock<std::mutex> lock(m_mtx);
-        fputs(str.c_str(), m_fp);
-    }
 }
 
 void Log::appendLogLevelTitle(int level)

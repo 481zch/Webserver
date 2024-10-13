@@ -71,6 +71,9 @@ bool SSLServer::SSLGetConnection(int clientSocket, SSL *&ssl)
     int ret = SSL_accept(ssl);
     if (ret <= 0) {
         int err = SSL_get_error(ssl, ret);
+        if (err == SSL_ERROR_SSL) {
+            ERR_print_errors_fp(stderr);
+        }
         LOG_ERROR("SSL handshake failed with error code: %d", err);
         ERR_print_errors_fp(stderr);
         SSL_free(ssl);

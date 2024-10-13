@@ -14,7 +14,8 @@ bool Epoller::AddFd(int fd, uint32_t events) {
     epoll_event ev = {0};
     ev.data.fd = fd;
     ev.events = events;
-    return 0 == epoll_ctl(epollFd_, EPOLL_CTL_ADD, fd, &ev);
+    bool res = 0 == epoll_ctl(epollFd_, EPOLL_CTL_ADD, fd, &ev);
+    return res;
 }
 
 bool Epoller::ModFd(int fd, uint32_t events) {
@@ -22,7 +23,8 @@ bool Epoller::ModFd(int fd, uint32_t events) {
     epoll_event ev = {0};
     ev.data.fd = fd;
     ev.events = events;
-    return 0 == epoll_ctl(epollFd_, EPOLL_CTL_MOD, fd, &ev);
+    bool res = (0 == epoll_ctl(epollFd_, EPOLL_CTL_MOD, fd, &ev));
+    return res;
 }
 
 bool Epoller::DelFd(int fd) {

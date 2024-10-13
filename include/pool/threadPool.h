@@ -15,7 +15,7 @@
 #define MIN_THREADS 4
 #define MAX_THREADS 40
 #define DEFAULT_THREADS 4
-#define DEFAULT_INTERVAL 1000
+#define DEFAULT_INTERVAL 5000
 
 class Task {
 public:
@@ -133,7 +133,11 @@ private:
     std::thread timer_thread;
 
 public:
-    ThreadPool(const int n_threads = DEFAULT_THREADS, const size_t min_threads = MIN_THREADS, const size_t max_threads = MAX_THREADS, std::chrono::milliseconds interval = std::chrono::milliseconds(DEFAULT_INTERVAL)) : lst_threads(std::list<std::thread>(n_threads)), m_shutdown(false), min_threads(min_threads), max_threads(max_threads), timer_interval(interval)
+    ThreadPool(const int n_threads = DEFAULT_THREADS, const size_t min_threads = MIN_THREADS, 
+               const size_t max_threads = MAX_THREADS, 
+               std::chrono::milliseconds interval = std::chrono::milliseconds(DEFAULT_INTERVAL)) : 
+               lst_threads(std::list<std::thread>(n_threads)), m_shutdown(false), min_threads(min_threads), 
+               max_threads(max_threads), timer_interval(interval)
     {
         work_nums = 0;
         sleep_nums = n_threads;

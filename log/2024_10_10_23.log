@@ -1,9 +1,0 @@
-2024-10-09 13:04:23 [info] : Base thread nums: 10
-2024-10-09 13:04:23 [info] : ========== Server init ==========
-2024-10-09 13:04:23 [error]: Add listen error!
-2024-10-09 13:04:23 [error]: Socket init error!
-2024-10-09 13:04:23 [info] : Remove thread nums: 6
-2024-10-09 13:04:23 [info] : Remove thread nums: 6
-2024-10-09 13:04:23 [info] : Remove thread nums: 6
-2024-10-09 13:04:23 [info] : SSL server initialized with cert: /project/webserver/sslCertFile/certFile.pem and key: /project/webserver/sslCertFile/keyFile.pem
-2024-10-09 13:04:23 [info] : Remove thread nums: 6

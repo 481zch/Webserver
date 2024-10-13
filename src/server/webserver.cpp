@@ -13,12 +13,12 @@ Webserver::Webserver(int threadNum, int connectNum, int objectNum,
 {
     LOG_INFO("========== Server init ==========");
     initEventMode();
+    initRescourceDir();
     m_objectPool = std::make_unique<ObjectPool<HttpConnect>>(static_cast<size_t>(objectNum), m_sqlConnectPool, m_redisConnectPool);
     if (!initSocket()) {
         m_stop = true;
         LOG_ERROR("Socket init error!");
     }
-
     if (!m_SSL->init()) {
         m_stop = true;
     }
@@ -37,9 +37,8 @@ void Webserver::eventLoop()
     int timeMS = -1;
     if(!m_stop) { LOG_INFO("========== Server start =========="); }
     while (!m_stop) {
-        timeMS = m_timer->getNextTick();
-        int eventCount = m_epoller->Wait();
-        for (int i = 0; i < eventCount; ++ i) {
+        timeMS = m_timer->GetNextTick();
+        int eventCount = m_epoller->Wait();        for (int i = 0; i < eventCount; ++ i) {
             int fd = m_epoller->GetEventFd(i);
             uint32_t events = m_epoller->GetEvents(i);
             if (fd == m_listenFd) {
@@ -132,7 +131,7 @@ void Webserver::addClient(int fd, sockaddr_in addr, SSL* ssl)
     auto obj = m_objectPool->acquireObject();
     obj->init(fd, addr, ssl);
     if (m_timeoutMS > 0) {
-        m_timer->addTimer(TimerNode());
+        m_timer->add(fd, m_timeoutMS, std::bind(&Webserver::closeConn, this, mp_users[fd]));
     }
     m_epoller->AddFd(fd, EPOLLIN | m_connEvent);
     setFdNonBlock(fd);
@@ -157,7 +156,7 @@ bool Webserver::initSocket()
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    addr.sin_port = htonl(m_port);
+    addr.sin_port = htons(m_port);
 
     m_listenFd = socket(AF_INET, SOCK_STREAM, 0);
     if (m_listenFd < 0) {
@@ -230,6 +229,7 @@ void Webserver::initRescourceDir()
 
 void Webserver::initEventMode()
 {
+    m_listenEvent = EPOLLRDHUP;
     m_connEvent |= EPOLLET;
     m_listenEvent |= EPOLLET;
 }
@@ -238,7 +238,7 @@ void Webserver::extentTime(HttpConnect *client)
 {
     assert(client);
     if (m_timeoutMS > 0) {
-        m_timer->adjustTimer(client->getFd(), m_timeoutMS);
+        m_timer->adjust(client->getFd(), m_timeoutMS);
     }
 }
 

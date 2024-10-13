@@ -45,7 +45,7 @@ inline void BlockQueue<T>::push_back(const T &message)
     m_condProducer.wait(lock, [this]() { return m_deq.size() < m_capacity || m_isClose; });
 
     if (m_isClose) return;
-
+    
     m_deq.push_back(message);
     m_condConsumer.notify_one();
 }
@@ -55,8 +55,9 @@ inline bool BlockQueue<T>::pop(T &item)
 {
     std::unique_lock<std::mutex> lock(m_mtx);
     m_condConsumer.wait(lock, [this](){ return m_deq.size() || m_isClose; });
+    
+    if (m_isClose) return false;
 
-    if (m_isClose || m_deq.empty()) return false;
     item = m_deq.front();
     m_deq.pop_front();
 
@@ -82,7 +83,9 @@ template <typename T>
 inline void BlockQueue<T>::flush()
 {
     std::unique_lock<std::mutex> lock(m_mtx);
-    m_condConsumer.notify_all();
+    while (!m_deq.empty()) {
+        m_condConsumer.notify_one();  // 强制通知消费
+    }
 }
 
 template <typename T>

@@ -76,5 +76,8 @@ CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o
  ../include/ssl/ssl.h
  /project/webserver/src/ssl/ssl.cpp
 CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o
+ ../include/buffer/buffer.h
+ ../include/log/blockqueue.h
+ ../include/log/log.h
  ../include/timer/heapTimer.h
  /project/webserver/src/timer/heapTimer.cpp
