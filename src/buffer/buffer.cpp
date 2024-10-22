@@ -116,7 +116,7 @@ std::string CircleBuffer::getByEndBytes()
             // 找到结束符，提取数据并更新读指针
             res = data.substr(0, endPos + m_end.length());
             m_readPos += res.size();
-            return res;
+            return res.substr(0, res.size() - m_end.size());
         }
     } else if (m_readPos > m_writePos) {
         // 右区间，两边，左区间
@@ -137,7 +137,7 @@ std::string CircleBuffer::getByEndBytes()
                 res = data_right + data_left.substr(0, remaing_left);
                 m_readPos = remaing_left;
             }
-            return res;
+            return res.substr(0, res.size() - m_end.size());
         }
     }
 

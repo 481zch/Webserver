@@ -2,12 +2,15 @@
 
 const char* HttpConnect::m_srcDir;
 
-HttpConnect::HttpConnect(std::shared_ptr<MySQLConnectionPool> mysql, std::shared_ptr<RedisConnectionPool> redis)
+HttpConnect::HttpConnect(MySQLConnectionPool* mysql, RedisConnectionPool* redis)
 {
+    assert(mysql != nullptr);
+    assert(redis != nullptr);
+
     m_fd = -1;
     m_ssl = nullptr;
-    m_request = std::make_shared<HttpRequest>(mysql, redis);
-    m_response = std::make_shared<HttpResponse>();
+    m_request = new HttpRequest(mysql, redis);
+    m_response = new HttpResponse();
 }
 
 void HttpConnect::init(int fd, const sockaddr_in &addr, SSL *ssl)
@@ -20,6 +23,8 @@ void HttpConnect::init(int fd, const sockaddr_in &addr, SSL *ssl)
 ssize_t HttpConnect::read(int *Errno)
 {
     // 这里写的也是过于粗暴了，为了使用环形缓冲区而去使用
+    assert(this != nullptr);
+    assert(m_ssl != nullptr);
     char str[4096];
     ssize_t readBytes = 0;
     int ret = 0;
@@ -39,6 +44,8 @@ ssize_t HttpConnect::read(int *Errno)
 
 ssize_t HttpConnect::write(int *Errno)
 {
+    assert(this != nullptr);
+    assert(m_ssl != nullptr);
     ssize_t writeBytes = 0;
     int ret = 0;
 
@@ -82,7 +89,7 @@ bool HttpConnect::process()
         return false;
     }
     else if(m_request->parse(m_readBuffer)) {
-        LOG_DEBUG("%s", m_request->path().c_str());
+        LOG_DEBUG("Request content is %s", m_request->path().c_str());
         m_response->Init(m_srcDir, m_request->path(), m_request->IsKeepAlive(), 200);
     } else {
         m_response->Init(m_srcDir, m_request->path(), false, 400);
@@ -104,6 +111,6 @@ bool HttpConnect::process()
         m_iov[1].iov_len = m_response->FileLen();
         m_iovCnt = 2;
     }
-    LOG_DEBUG("filesize:%d, %d  to %d", m_response->FileLen() , m_iovCnt, toWriteBytes());
+    LOG_DEBUG("filesize:%d, %d to %d", m_response->FileLen() , m_iovCnt, toWriteBytes());
     return true;
 }

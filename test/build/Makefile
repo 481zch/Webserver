@@ -123,32 +123,32 @@ tests/fast:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
-code/test_log.o: code/test_log.cpp.o
+code/test_buffer.o: code/test_buffer.cpp.o
 
-.PHONY : code/test_log.o
+.PHONY : code/test_buffer.o
 
 # target to build an object file
-code/test_log.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_log.cpp.o
-.PHONY : code/test_log.cpp.o
+code/test_buffer.cpp.o:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_buffer.cpp.o
+.PHONY : code/test_buffer.cpp.o
 
-code/test_log.i: code/test_log.cpp.i
+code/test_buffer.i: code/test_buffer.cpp.i
 
-.PHONY : code/test_log.i
+.PHONY : code/test_buffer.i
 
 # target to preprocess a source file
-code/test_log.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_log.cpp.i
-.PHONY : code/test_log.cpp.i
+code/test_buffer.cpp.i:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_buffer.cpp.i
+.PHONY : code/test_buffer.cpp.i
 
-code/test_log.s: code/test_log.cpp.s
+code/test_buffer.s: code/test_buffer.cpp.s
 
-.PHONY : code/test_log.s
+.PHONY : code/test_buffer.s
 
 # target to generate assembly for a file
-code/test_log.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_log.cpp.s
-.PHONY : code/test_log.cpp.s
+code/test_buffer.cpp.s:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_buffer.cpp.s
+.PHONY : code/test_buffer.cpp.s
 
 project/webserver/src/buffer/buffer.o: project/webserver/src/buffer/buffer.cpp.o
 
@@ -204,6 +204,33 @@ project/webserver/src/log/log.cpp.s:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.s
 .PHONY : project/webserver/src/log/log.cpp.s
 
+project/webserver/src/pool/connectPool.o: project/webserver/src/pool/connectPool.cpp.o
+
+.PHONY : project/webserver/src/pool/connectPool.o
+
+# target to build an object file
+project/webserver/src/pool/connectPool.cpp.o:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o
+.PHONY : project/webserver/src/pool/connectPool.cpp.o
+
+project/webserver/src/pool/connectPool.i: project/webserver/src/pool/connectPool.cpp.i
+
+.PHONY : project/webserver/src/pool/connectPool.i
+
+# target to preprocess a source file
+project/webserver/src/pool/connectPool.cpp.i:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.i
+.PHONY : project/webserver/src/pool/connectPool.cpp.i
+
+project/webserver/src/pool/connectPool.s: project/webserver/src/pool/connectPool.cpp.s
+
+.PHONY : project/webserver/src/pool/connectPool.s
+
+# target to generate assembly for a file
+project/webserver/src/pool/connectPool.cpp.s:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.s
+.PHONY : project/webserver/src/pool/connectPool.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,15 +240,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... tests"
-	@echo "... code/test_log.o"
-	@echo "... code/test_log.i"
-	@echo "... code/test_log.s"
+	@echo "... code/test_buffer.o"
+	@echo "... code/test_buffer.i"
+	@echo "... code/test_buffer.s"
 	@echo "... project/webserver/src/buffer/buffer.o"
 	@echo "... project/webserver/src/buffer/buffer.i"
 	@echo "... project/webserver/src/buffer/buffer.s"
 	@echo "... project/webserver/src/log/log.o"
 	@echo "... project/webserver/src/log/log.i"
 	@echo "... project/webserver/src/log/log.s"
+	@echo "... project/webserver/src/pool/connectPool.o"
+	@echo "... project/webserver/src/pool/connectPool.i"
+	@echo "... project/webserver/src/pool/connectPool.s"
 .PHONY : help
 
 

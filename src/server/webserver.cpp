@@ -3,18 +3,19 @@
 
 std::atomic<bool> Webserver::m_stop = false;
 
-Webserver::Webserver(int threadNum, int connectNum, int objectNum, 
+Webserver::Webserver(int threadNum, int connectNum, size_t objectNum, 
                     int port, int sqlPort, int redisPort, const char* host,
                     const char *dbName, const char *sqlUser, const char *sqlPwd,
                     int timeoutMS, int MAX_FD, size_t userCount, const char* certFile, const char* keyFile):
-                    m_threadPool(new ThreadPool(threadNum)), m_sqlConnectPool(new MySQLConnectionPool(host, sqlUser, dbName, sqlPort)),
+                    m_threadPool(new ThreadPool(threadNum)), m_sqlConnectPool(new MySQLConnectionPool(host, sqlUser, sqlPwd, dbName, sqlPort)),
                     m_redisConnectPool(new RedisConnectionPool(host, redisPort)), m_epoller(new Epoller), m_port(port),
                     m_timer(new HeapTimer), m_SSL(new SSLServer(certFile, keyFile)), m_timeoutMS(timeoutMS), MAX_FD(MAX_FD), m_userCount(userCount)
 {
     LOG_INFO("========== Server init ==========");
+
     initEventMode();
     initRescourceDir();
-    m_objectPool = std::make_unique<ObjectPool<HttpConnect>>(static_cast<size_t>(objectNum), m_sqlConnectPool, m_redisConnectPool);
+    m_objectPool = new ObjectPool<HttpConnect>(objectNum, m_sqlConnectPool, m_redisConnectPool);
     if (!initSocket()) {
         m_stop = true;
         LOG_ERROR("Socket init error!");
@@ -29,7 +30,15 @@ Webserver::~Webserver()
     close(m_listenFd);
     m_stop = true;
     m_threadPool->shutdown();
-    // delete[] m_srcDir;
+
+    // 释放资源
+    delete m_threadPool;
+    delete m_sqlConnectPool;
+    delete m_redisConnectPool;
+    delete m_objectPool;
+    delete m_epoller;
+    delete m_timer;
+    delete m_SSL;
 }
 
 void Webserver::eventLoop()
@@ -38,7 +47,8 @@ void Webserver::eventLoop()
     if(!m_stop) { LOG_INFO("========== Server start =========="); }
     while (!m_stop) {
         timeMS = m_timer->GetNextTick();
-        int eventCount = m_epoller->Wait();        for (int i = 0; i < eventCount; ++ i) {
+        int eventCount = m_epoller->Wait();
+        for (int i = 0; i < eventCount; ++ i) {
             int fd = m_epoller->GetEventFd(i);
             uint32_t events = m_epoller->GetEvents(i);
             if (fd == m_listenFd) {
@@ -94,16 +104,21 @@ void Webserver::closeConn(HttpConnect *client)
     LOG_INFO("Client[%d] quit!", client->getFd());
     m_epoller->DelFd(client->getFd());
     mp_users.erase(client->getFd());
+    if (client->getSSL() != nullptr) {
     SSL_shutdown(client->getSSL());
+    } else {
+        LOG_ERROR("Attempted to shutdown a null SSL connection.");
+    }
+
     SSL_free(client->getSSL());
-    m_objectPool->releaseObject(std::unique_ptr<HttpConnect>(client));
+    m_objectPool->releaseObject(client);
     -- m_userCount;
 }
 
 void Webserver::dealRead(HttpConnect *client)
 {
     assert(client);
-    extentTime(client);
+    // extentTime(client);
     auto task = std::bind(&Webserver::onRead, this, client);
     m_threadPool->submit(task);
 }
@@ -111,7 +126,7 @@ void Webserver::dealRead(HttpConnect *client)
 void Webserver::dealWrite(HttpConnect *client)
 {
     assert(client);
-    extentTime(client);
+    // extentTime(client);
     auto task = std::bind(&Webserver::onWrite, this, client);
     m_threadPool->submit(task);
 }
@@ -133,9 +148,10 @@ void Webserver::addClient(int fd, sockaddr_in addr, SSL* ssl)
     if (m_timeoutMS > 0) {
         m_timer->add(fd, m_timeoutMS, std::bind(&Webserver::closeConn, this, mp_users[fd]));
     }
+    // 设置读事件到来的epoll触发
     m_epoller->AddFd(fd, EPOLLIN | m_connEvent);
     setFdNonBlock(fd);
-    mp_users[fd] = obj.get();
+    mp_users[fd] = obj;
     ++ m_userCount;
     LOG_INFO("Client[%d] in!", mp_users[fd]->getFd());
 }
@@ -207,22 +223,8 @@ int Webserver::setFdNonBlock(int fd)
 
 void Webserver::initRescourceDir()
 {
-    char currentPath[256];
-    if (getcwd(currentPath, sizeof(currentPath)) == nullptr) {
-        LOG_ERROR("Get resource directory fail!");
-        return;
-    }
-
-    std::string path(currentPath);
-    size_t pos = path.find_last_of('/');
-    if (pos != std::string::npos) {
-        path = path.substr(0, pos);
-    }
-
-    path += "/resource";
-
-    m_srcDir = new char[path.size() + 1];
-    strcpy(m_srcDir, path.c_str());
+    m_srcDir = "/project/webserver/resources";
+    LOG_DEBUG("resource directory is %s", m_srcDir);
     HttpConnect::m_srcDir = m_srcDir;
 }
 

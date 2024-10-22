@@ -13,11 +13,12 @@ const unordered_map<string, int> HttpRequest::DEFAULT_HTML_TAG {
     {"/login.html", 1}, {"/register.html", 0}
 };
 
-HttpRequest::HttpRequest(std::shared_ptr<MySQLConnectionPool> mysql, std::shared_ptr<RedisConnectionPool> redis)
+HttpRequest::HttpRequest(MySQLConnectionPool* mysql, RedisConnectionPool* redis)
 {
+    assert(mysql != nullptr);
+    assert(redis != nullptr);
     m_mysql = mysql;
     m_redis = redis;
-    Init();
 }
 
 // 初始化操作，一些清零操作
@@ -81,7 +82,7 @@ bool HttpRequest::ParseRequestLine_(const string& line) {
         state_ = HEADERS;
         return true;
     }
-    LOG_ERROR("RequestLine Error");
+    LOG_ERROR("RequestLine Error, line is: %s", line);
     return false;
 }
 
@@ -155,7 +156,7 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
     }
 
     std::string redisCmd = "GET " + name;
-    redisReply* reply = (redisReply*)redisCommand(redisConn.get(), redisCmd.c_str());
+    redisReply* reply = (redisReply*)redisCommand(redisConn, redisCmd.c_str());
     if (reply && reply->type == REDIS_REPLY_STRING) {
         std::string cachedPwd = reply->str;
         freeReplyObject(reply);
@@ -185,12 +186,12 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
     snprintf(sqlQuery, 256, "SELECT password FROM user WHERE username='%s' LIMIT 1", name.c_str());
     LOG_DEBUG("%s", sqlQuery);
 
-    if (mysql_query(mysqlConn.get(), sqlQuery)) {
+    if (mysql_query(mysqlConn, sqlQuery)) {
         LOG_ERROR("MySQL query error!");
         return false;
     }
 
-    MYSQL_RES* res = mysql_store_result(mysqlConn.get());
+    MYSQL_RES* res = mysql_store_result(mysqlConn);
     if (res == nullptr) {
         LOG_ERROR("MySQL store result error!");
         return false;
@@ -216,12 +217,12 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
 
         // 将用户数据写入 Redis 缓存
         redisCmd = "SET " + name + " " + dbPwd;
-        reply = (redisReply*)redisCommand(redisConn.get(), redisCmd.c_str());
+        reply = (redisReply*)redisCommand(redisConn, redisCmd.c_str());
         if (reply) freeReplyObject(reply);
     } else if (!isLogin) {
         // 注册新用户
         snprintf(sqlQuery, 256, "INSERT INTO user(username, password) VALUES('%s', '%s')", name.c_str(), pwd.c_str());
-        if (mysql_query(mysqlConn.get(), sqlQuery) == 0) {
+        if (mysql_query(mysqlConn, sqlQuery) == 0) {
             success = true;
             LOG_INFO("User %s registered successfully!", name.c_str());
         } else {
@@ -241,6 +242,7 @@ std::string HttpRequest::path() const{
 std::string& HttpRequest::path(){
     return path_;
 }
+
 std::string HttpRequest::method() const {
     return method_;
 }

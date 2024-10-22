@@ -57,18 +57,18 @@ include CMakeFiles/tests.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/tests.dir/flags.make
 
-CMakeFiles/tests.dir/code/test_log.cpp.o: CMakeFiles/tests.dir/flags.make
-CMakeFiles/tests.dir/code/test_log.cpp.o: ../code/test_log.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/code/test_log.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/code/test_log.cpp.o -c /project/webserver/test/code/test_log.cpp
+CMakeFiles/tests.dir/code/test_buffer.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/code/test_buffer.cpp.o: ../code/test_buffer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/code/test_buffer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/code/test_buffer.cpp.o -c /project/webserver/test/code/test_buffer.cpp
 
-CMakeFiles/tests.dir/code/test_log.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/code/test_log.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /project/webserver/test/code/test_log.cpp > CMakeFiles/tests.dir/code/test_log.cpp.i
+CMakeFiles/tests.dir/code/test_buffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/code/test_buffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /project/webserver/test/code/test_buffer.cpp > CMakeFiles/tests.dir/code/test_buffer.cpp.i
 
-CMakeFiles/tests.dir/code/test_log.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/code/test_log.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/test/code/test_log.cpp -o CMakeFiles/tests.dir/code/test_log.cpp.s
+CMakeFiles/tests.dir/code/test_buffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/code/test_buffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/test/code/test_buffer.cpp -o CMakeFiles/tests.dir/code/test_buffer.cpp.s
 
 CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o: /project/webserver/src/log/log.cpp
@@ -83,9 +83,22 @@ CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/src/log/log.cpp -o CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.s
 
+CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o: /project/webserver/src/pool/connectPool.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o -c /project/webserver/src/pool/connectPool.cpp
+
+CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /project/webserver/src/pool/connectPool.cpp > CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.i
+
+CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/src/pool/connectPool.cpp -o CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.s
+
 CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o: CMakeFiles/tests.dir/flags.make
 CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o: /project/webserver/src/buffer/buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o -c /project/webserver/src/buffer/buffer.cpp
 
 CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.i: cmake_force
@@ -98,21 +111,23 @@ CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.s: cmake_force
 
 # Object files for target tests
 tests_OBJECTS = \
-"CMakeFiles/tests.dir/code/test_log.cpp.o" \
+"CMakeFiles/tests.dir/code/test_buffer.cpp.o" \
 "CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o" \
+"CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o" \
 "CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o"
 
 # External object files for target tests
 tests_EXTERNAL_OBJECTS =
 
-../bin/tests: CMakeFiles/tests.dir/code/test_log.cpp.o
+../bin/tests: CMakeFiles/tests.dir/code/test_buffer.cpp.o
 ../bin/tests: CMakeFiles/tests.dir/project/webserver/src/log/log.cpp.o
+../bin/tests: CMakeFiles/tests.dir/project/webserver/src/pool/connectPool.cpp.o
 ../bin/tests: CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.o
 ../bin/tests: CMakeFiles/tests.dir/build.make
 ../bin/tests: /usr/lib/x86_64-linux-gnu/libgtest_main.a
 ../bin/tests: /usr/lib/x86_64-linux-gnu/libgtest.a
 ../bin/tests: CMakeFiles/tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/project/webserver/test/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable ../bin/tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

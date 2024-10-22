@@ -48,6 +48,7 @@ HttpResponse::~HttpResponse() {
 }
 
 void HttpResponse::Init(const std::string& srcDir, std::string& path, bool isKeepAlive, int code){
+    assert(this != nullptr);
     assert(srcDir != "");
     if(mmFile_) { UnmapFile(); }
     code_ = code;
@@ -59,7 +60,6 @@ void HttpResponse::Init(const std::string& srcDir, std::string& path, bool isKee
 }
 
 void HttpResponse::MakeResponse(CircleBuffer& buff) {
-    /* 判断请求的资源文件 */
     if(stat((srcDir_ + path_).data(), &mmFileStat_) < 0 || S_ISDIR(mmFileStat_.st_mode)) {
         code_ = 404;
     }
