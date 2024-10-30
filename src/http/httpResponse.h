@@ -16,17 +16,17 @@ public:
     ~HttpResponse();
 
     void Init(const std::string& srcDir, std::string& path, bool isKeepAlive = false, int code = -1);
-    void MakeResponse(CircleBuffer& buff);
+    void MakeResponse(LinearBuffer& buff);
     void UnmapFile();
     char* File();
     size_t FileLen() const;
-    void ErrorContent(CircleBuffer& buff, std::string message);
+    void ErrorContent(LinearBuffer& buff, std::string message);
     int Code() const { return code_; }
 
 private:
-    void AddStateLine_(CircleBuffer &buff);
-    void AddHeader_(CircleBuffer &buff);
-    void AddContent_(CircleBuffer &buff);
+    void AddStateLine_(LinearBuffer &buff);
+    void AddHeader_(LinearBuffer &buff);
+    void AddContent_(LinearBuffer &buff);
 
     void ErrorHtml_();
     std::string GetFileType_();

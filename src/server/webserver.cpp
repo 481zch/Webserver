@@ -1,27 +1,25 @@
 #include "server/webserver.h"
-#include <string.h>
 
 std::atomic<bool> Webserver::m_stop = false;
 
 Webserver::Webserver(int threadNum, int connectNum, size_t objectNum, 
                     int port, int sqlPort, int redisPort, const char* host,
                     const char *dbName, const char *sqlUser, const char *sqlPwd,
-                    int timeoutMS, int MAX_FD, size_t userCount, const char* certFile, const char* keyFile):
+                    int timeoutMS, int MAX_FD, size_t userCount):
                     m_threadPool(new ThreadPool(threadNum)), m_sqlConnectPool(new MySQLConnectionPool(host, sqlUser, sqlPwd, dbName, sqlPort)),
                     m_redisConnectPool(new RedisConnectionPool(host, redisPort)), m_epoller(new Epoller), m_port(port),
-                    m_timer(new HeapTimer), m_SSL(new SSLServer(certFile, keyFile)), m_timeoutMS(timeoutMS), MAX_FD(MAX_FD), m_userCount(userCount)
+                    m_timer(new HeapTimer), m_timeoutMS(timeoutMS), MAX_FD(MAX_FD), m_userCount(userCount)
 {
     LOG_INFO("========== Server init ==========");
-
     initEventMode();
-    initRescourceDir();
+
+    m_srcDir = "/project/webserver/resources";
+    HttpConnect::m_srcDir = m_srcDir;
+
     m_objectPool = new ObjectPool<HttpConnect>(objectNum, m_sqlConnectPool, m_redisConnectPool);
     if (!initSocket()) {
         m_stop = true;
         LOG_ERROR("Socket init error!");
-    }
-    if (!m_SSL->init()) {
-        m_stop = true;
     }
 }
 
@@ -38,7 +36,6 @@ Webserver::~Webserver()
     delete m_objectPool;
     delete m_epoller;
     delete m_timer;
-    delete m_SSL;
 }
 
 void Webserver::eventLoop()
@@ -46,24 +43,24 @@ void Webserver::eventLoop()
     int timeMS = -1;
     if(!m_stop) { LOG_INFO("========== Server start =========="); }
     while (!m_stop) {
-        timeMS = m_timer->GetNextTick();
-        int eventCount = m_epoller->Wait();
+        timeMS = m_timer->GetNextTick();    // 默认返回的是-1
+        int eventCount = m_epoller->wait();
         for (int i = 0; i < eventCount; ++ i) {
-            int fd = m_epoller->GetEventFd(i);
-            uint32_t events = m_epoller->GetEvents(i);
+            int fd = m_epoller->getEventFd(i);
+            uint32_t events = m_epoller->getEvents(i);
             if (fd == m_listenFd) {
                 dealListen();
             } else if (events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)) {
                 assert(mp_users.count(fd));
-                closeConn(mp_users[fd]);
+                closeConn(std::string("Epoll cause close."), mp_users[fd]);
             } else if (events & EPOLLIN) {
-                assert(mp_users.count(fd));
+                assert(mp_users.count(fd) > 0);
                 dealRead(mp_users[fd]);
             } else if (events & EPOLLOUT) {
-                assert(mp_users.count(fd));
+                assert(mp_users.count(fd) > 0);
                 dealWrite(mp_users[fd]);
             } else {
-                LOG_ERROR("Unexpected event");
+                LOG_ERROR("Unexpected event on fd[%d]: events = 0x%x", fd, events);
             }
         }
     }
@@ -83,34 +80,22 @@ void Webserver::dealListen()
             return;
         }
         else {
-            // 进行SSL握手
-            SSL* ssl = nullptr;
-            if (m_SSL->SSLGetConnection(fd, ssl)) {
-                addClient(fd, addr, ssl);
-            } else {
-                sendError(fd, "SSL shake hands fail!");
-                LOG_WARN("SSL shake hands fail!");
-                close(fd);
-                return;
-            }
-            
+            addClient(fd, addr);
         }
     }
 }
 
-void Webserver::closeConn(HttpConnect *client)
+void Webserver::closeConn(const std::string& message, HttpConnect *client)
 {
-    assert(client);
-    LOG_INFO("Client[%d] quit!", client->getFd());
-    m_epoller->DelFd(client->getFd());
+    // 这行代码的原因是在时间堆回调的时候，这个对象已经被回收到池中了，从哈希表中已经移除，因此是无法找到的    
+    if (client == nullptr) return;
+    // 调试使用
+    LOG_INFO("Client[%d] quit, the quit reason is: %s", client->getFd(), message.c_str());
+    m_epoller->delFd(client->getFd());
+    client->closeClient();
+    client->m_isClosed = true;
     mp_users.erase(client->getFd());
-    if (client->getSSL() != nullptr) {
-    SSL_shutdown(client->getSSL());
-    } else {
-        LOG_ERROR("Attempted to shutdown a null SSL connection.");
-    }
-
-    SSL_free(client->getSSL());
+    client->clearResource();
     m_objectPool->releaseObject(client);
     -- m_userCount;
 }
@@ -118,7 +103,7 @@ void Webserver::closeConn(HttpConnect *client)
 void Webserver::dealRead(HttpConnect *client)
 {
     assert(client);
-    // extentTime(client);
+    extentTime(client);
     auto task = std::bind(&Webserver::onRead, this, client);
     m_threadPool->submit(task);
 }
@@ -126,7 +111,7 @@ void Webserver::dealRead(HttpConnect *client)
 void Webserver::dealWrite(HttpConnect *client)
 {
     assert(client);
-    // extentTime(client);
+    extentTime(client);
     auto task = std::bind(&Webserver::onWrite, this, client);
     m_threadPool->submit(task);
 }
@@ -134,26 +119,26 @@ void Webserver::dealWrite(HttpConnect *client)
 void Webserver::onProcess(HttpConnect *client)
 {
     if (client->process()) {
-        m_epoller->ModFd(client->getFd(), m_connEvent | EPOLLOUT);
+        m_epoller->modFd(client->getFd(), m_connEvent | EPOLLOUT);
     } else {
-        m_epoller->ModFd(client->getFd(), m_connEvent | EPOLLIN);       
+        m_epoller->modFd(client->getFd(), m_connEvent | EPOLLIN);       
     }
 }
 
-void Webserver::addClient(int fd, sockaddr_in addr, SSL* ssl)
+void Webserver::addClient(int fd, sockaddr_in addr)
 {
     assert(fd > 0);
     auto obj = m_objectPool->acquireObject();
-    obj->init(fd, addr, ssl);
+    obj->init(fd, addr);
     if (m_timeoutMS > 0) {
-        m_timer->add(fd, m_timeoutMS, std::bind(&Webserver::closeConn, this, mp_users[fd]));
+        m_timer->add(fd, m_timeoutMS, std::bind(&Webserver::closeConn, this, std::string("Timer cause client close"), mp_users[fd]));
     }
     // 设置读事件到来的epoll触发
-    m_epoller->AddFd(fd, EPOLLIN | m_connEvent);
+    m_epoller->addFd(fd, EPOLLIN | m_connEvent);
     setFdNonBlock(fd);
     mp_users[fd] = obj;
     ++ m_userCount;
-    LOG_INFO("Client[%d] in!", mp_users[fd]->getFd());
+    LOG_INFO("Client[%d] in!", fd);
 }
 
 void Webserver::sendError(int fd, const char *info)
@@ -163,7 +148,7 @@ void Webserver::sendError(int fd, const char *info)
     if (ret < 0) {
         LOG_WARN("Send error to client[%d] error!", fd);
     }
-    closeConn(mp_users[fd]);
+    close(fd);
 }
 
 bool Webserver::initSocket()
@@ -203,7 +188,7 @@ bool Webserver::initSocket()
     }
 
     // 可读事件，当有新的客户端连接时触发
-    ret = m_epoller->AddFd(m_listenFd,  m_listenEvent | EPOLLIN);
+    ret = m_epoller->addFd(m_listenFd,  m_listenEvent | EPOLLIN);
     if(ret == 0) {
         LOG_ERROR("Add listen error!");
         close(m_listenFd);
@@ -221,17 +206,11 @@ int Webserver::setFdNonBlock(int fd)
     return fcntl(fd, F_SETFL, fcntl(fd, F_GETFL, 0) | O_NONBLOCK);
 }
 
-void Webserver::initRescourceDir()
-{
-    m_srcDir = "/project/webserver/resources";
-    LOG_DEBUG("resource directory is %s", m_srcDir);
-    HttpConnect::m_srcDir = m_srcDir;
-}
-
-
 void Webserver::initEventMode()
 {
     m_listenEvent = EPOLLRDHUP;
+    m_connEvent = EPOLLONESHOT | EPOLLRDHUP; 
+
     m_connEvent |= EPOLLET;
     m_listenEvent |= EPOLLET;
 }
@@ -251,7 +230,7 @@ void Webserver::onRead(HttpConnect *client)
     int readErrno = 0;
     ret = client->read(&readErrno);
     if (ret <= 0 && readErrno != EAGAIN) {
-        closeConn(client);
+        closeConn(std::string("Read Error cause client close."), client);
         return;
     }
     onProcess(client);
@@ -265,15 +244,15 @@ void Webserver::onWrite(HttpConnect *client)
     ret = client->write(&writeErrno);
     if (client->toWriteBytes() == 0) {
         if (client->isKeepAlive()) {
-            m_epoller->ModFd(client->getFd(), m_connEvent | EPOLLIN);
+            m_epoller->modFd(client->getFd(), m_connEvent | EPOLLIN);
             return;
         }
     } else if (ret < 0) {
         // 继续传输
         if (writeErrno == EAGAIN) {
-            m_epoller->ModFd(client->getFd(), m_connEvent | EPOLLOUT);
+            m_epoller->modFd(client->getFd(), m_connEvent | EPOLLOUT);
             return;
         }
     }
-    closeConn(client);
+    closeConn(std::string("Write error cause client close"), client);
 }

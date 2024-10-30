@@ -59,7 +59,7 @@ void HttpResponse::Init(const std::string& srcDir, std::string& path, bool isKee
     mmFileStat_ = { 0 };
 }
 
-void HttpResponse::MakeResponse(CircleBuffer& buff) {
+void HttpResponse::MakeResponse(LinearBuffer& buff) {
     if(stat((srcDir_ + path_).data(), &mmFileStat_) < 0 || S_ISDIR(mmFileStat_.st_mode)) {
         code_ = 404;
     }
@@ -90,7 +90,7 @@ void HttpResponse::ErrorHtml_() {
     }
 }
 
-void HttpResponse::AddStateLine_(CircleBuffer& buff) {
+void HttpResponse::AddStateLine_(LinearBuffer& buff) {
     std::string status;
     if(CODE_STATUS.count(code_) == 1) {
         status = CODE_STATUS.find(code_)->second;
@@ -99,21 +99,21 @@ void HttpResponse::AddStateLine_(CircleBuffer& buff) {
         code_ = 400;
         status = CODE_STATUS.find(400)->second;
     }
-    buff.Append("HTTP/1.1 " + std::to_string(code_) + " " + status + "\r\n");
+    buff.append("HTTP/1.1 " + std::to_string(code_) + " " + status + "\r\n");
 }
 
-void HttpResponse::AddHeader_(CircleBuffer& buff) {
-    buff.Append("Connection: ");
+void HttpResponse::AddHeader_(LinearBuffer& buff) {
+    buff.append("Connection: ");
     if(isKeepAlive_) {
-        buff.Append("keep-alive\r\n");
-        buff.Append("keep-alive: max=6, timeout=120\r\n");
+        buff.append("keep-alive\r\n");
+        buff.append("keep-alive: max=6, timeout=120\r\n");
     } else{
-        buff.Append("close\r\n");
+        buff.append("close\r\n");
     }
-    buff.Append("Content-type: " + GetFileType_() + "\r\n");
+    buff.append("Content-type: " + GetFileType_() + "\r\n");
 }
 
-void HttpResponse::AddContent_(CircleBuffer& buff) {
+void HttpResponse::AddContent_(LinearBuffer& buff) {
     int srcFd = open((srcDir_ + path_).data(), O_RDONLY);
     if(srcFd < 0) { 
         ErrorContent(buff, "File NotFound!");
@@ -130,7 +130,7 @@ void HttpResponse::AddContent_(CircleBuffer& buff) {
     }
     mmFile_ = (char*)mmRet;
     close(srcFd);
-    buff.Append("Content-length: " + std::to_string(mmFileStat_.st_size) + "\r\n\r\n");
+    buff.append("Content-length: " + std::to_string(mmFileStat_.st_size) + "\r\n\r\n");
 }
 
 void HttpResponse::UnmapFile() {
@@ -153,7 +153,7 @@ std::string HttpResponse::GetFileType_() {
     return "text/plain";
 }
 
-void HttpResponse::ErrorContent(CircleBuffer& buff, std::string message) 
+void HttpResponse::ErrorContent(LinearBuffer& buff, std::string message) 
 {
     std::string body;
     std::string status;
@@ -168,6 +168,6 @@ void HttpResponse::ErrorContent(CircleBuffer& buff, std::string message)
     body += "<p>" + message + "</p>";
     body += "<hr><em>TinyWebServer</em></body></html>";
 
-    buff.Append("Content-length: " + std::to_string(body.size()) + "\r\n\r\n");
-    buff.Append(body);
+    buff.append("Content-length: " + std::to_string(body.size()) + "\r\n\r\n");
+    buff.append(body);
 }

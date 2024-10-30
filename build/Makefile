@@ -150,6 +150,33 @@ src/buffer/buffer.cpp.s:
 	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/buffer/buffer.cpp.s
 .PHONY : src/buffer/buffer.cpp.s
 
+src/buffer/linearBuffer.o: src/buffer/linearBuffer.cpp.o
+
+.PHONY : src/buffer/linearBuffer.o
+
+# target to build an object file
+src/buffer/linearBuffer.cpp.o:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o
+.PHONY : src/buffer/linearBuffer.cpp.o
+
+src/buffer/linearBuffer.i: src/buffer/linearBuffer.cpp.i
+
+.PHONY : src/buffer/linearBuffer.i
+
+# target to preprocess a source file
+src/buffer/linearBuffer.cpp.i:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.i
+.PHONY : src/buffer/linearBuffer.cpp.i
+
+src/buffer/linearBuffer.s: src/buffer/linearBuffer.cpp.s
+
+.PHONY : src/buffer/linearBuffer.s
+
+# target to generate assembly for a file
+src/buffer/linearBuffer.cpp.s:
+	$(MAKE) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.s
+.PHONY : src/buffer/linearBuffer.cpp.s
+
 src/http/httpConnect.o: src/http/httpConnect.cpp.o
 
 .PHONY : src/http/httpConnect.o
@@ -432,6 +459,9 @@ help:
 	@echo "... src/buffer/buffer.o"
 	@echo "... src/buffer/buffer.i"
 	@echo "... src/buffer/buffer.s"
+	@echo "... src/buffer/linearBuffer.o"
+	@echo "... src/buffer/linearBuffer.i"
+	@echo "... src/buffer/linearBuffer.s"
 	@echo "... src/http/httpConnect.o"
 	@echo "... src/http/httpConnect.i"
 	@echo "... src/http/httpConnect.s"

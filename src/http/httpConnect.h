@@ -1,8 +1,7 @@
 #pragma once
 #include <netinet/in.h>
 #include "log/log.h"
-#include "ssl/ssl.h"
-#include "buffer/buffer.h"
+#include "buffer/linearBuffer.h"
 #include "http/httpRequest.h"
 #include "http/httpResponse.h"
 
@@ -12,8 +11,7 @@ public:
     ~HttpConnect() = default;
 
     int getFd() const {return m_fd;}
-    SSL* getSSL() const {return m_ssl;}
-    void init(int fd, const sockaddr_in& addr, SSL* ssl);
+    void init(int fd, const sockaddr_in& addr);
 
     ssize_t read(int* Errno);
     ssize_t write(int* Errno);
@@ -22,18 +20,21 @@ public:
     bool isKeepAlive() const {return m_request->IsKeepAlive();}
     int toWriteBytes() {return m_iov[0].iov_len + m_iov[1].iov_len;}
 
+    void clearResource();
+    void closeClient();
+
     static const char* m_srcDir;
+    bool m_isClosed;
 
 private:
     int m_fd;
     sockaddr_in m_addr;
-    SSL* m_ssl;
     iovec m_iov[2];
     size_t m_iovCnt;
 
-    std::vector<char> m_tempBuff; // 为了使用环形缓冲区，使用一个栈上缓冲区
-    CircleBuffer m_readBuffer;
-    CircleBuffer m_writeBuffer;
+    std::vector<char> m_tempBuff;
+    LinearBuffer m_readBuffer;
+    LinearBuffer m_writeBuffer;
 
     HttpRequest* m_request;
     HttpResponse* m_response;

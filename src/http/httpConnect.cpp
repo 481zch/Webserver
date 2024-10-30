@@ -1,4 +1,5 @@
 #include "http/httpConnect.h"
+#include <cstring>
 
 const char* HttpConnect::m_srcDir;
 
@@ -8,34 +9,24 @@ HttpConnect::HttpConnect(MySQLConnectionPool* mysql, RedisConnectionPool* redis)
     assert(redis != nullptr);
 
     m_fd = -1;
-    m_ssl = nullptr;
+    m_isClosed = false;
     m_request = new HttpRequest(mysql, redis);
     m_response = new HttpResponse();
 }
 
-void HttpConnect::init(int fd, const sockaddr_in &addr, SSL *ssl)
+void HttpConnect::init(int fd, const sockaddr_in &addr)
 {
     m_fd = fd;
     m_addr = addr;
-    m_ssl = ssl;
+    m_isClosed = false;
 }
 
 ssize_t HttpConnect::read(int *Errno)
 {
-    // 这里写的也是过于粗暴了，为了使用环形缓冲区而去使用
-    assert(this != nullptr);
-    assert(m_ssl != nullptr);
-    char str[4096];
-    ssize_t readBytes = 0;
-    int ret = 0;
-
+    ssize_t readBytes = -1;
     while (true) {
-        ret = SSL_read(m_ssl, str, sizeof(str));
-        if (ret > 0) {
-            m_readBuffer.Append(str);
-            readBytes += ret;
-        } else {
-            *Errno = errno;
+        readBytes = m_readBuffer.readFd(m_fd, Errno);
+        if (readBytes <= 0) {
             break;
         }
     }
@@ -44,48 +35,38 @@ ssize_t HttpConnect::read(int *Errno)
 
 ssize_t HttpConnect::write(int *Errno)
 {
-    assert(this != nullptr);
-    assert(m_ssl != nullptr);
-    ssize_t writeBytes = 0;
-    int ret = 0;
+    ssize_t len = -1;
 
     while (true) {
-        if (m_iov[0].iov_len > 0) {
-            ret = SSL_write(m_ssl, m_iov[0].iov_base, m_iov[0].iov_len);
-            if (ret > 0) {
-                writeBytes += ret;
-                m_iov[0].iov_base = static_cast<char*>(m_iov[0].iov_base) + ret;
-                m_iov[0].iov_len -= ret;
-            } else {
-                *Errno = errno;
-                break;
-            }
-        }
-
-        if (m_iov[0].iov_len == 0 && m_iov[1].iov_len > 0) {
-            ret = SSL_write(m_ssl, m_iov[1].iov_base, m_iov[1].iov_len);
-            if (ret > 0) {
-                writeBytes += ret;
-                m_iov[1].iov_base = static_cast<char*>(m_iov[1].iov_base) + ret;
-                m_iov[1].iov_len -= ret;
-            } else {
-                *Errno = errno;
-                break;
-            }
-        }
-
-        if (m_iov[0].iov_len == 0 && m_iov[1].iov_len == 0) {
+        len = writev(m_fd, m_iov, m_iovCnt);
+        if (len <= 0) {
+            *Errno = errno;
             break;
+        }
+        
+        if(m_iov[0].iov_len + m_iov[1].iov_len  == 0) {
+            break;
+        } else if(static_cast<size_t>(len) > m_iov[0].iov_len) {
+            m_iov[1].iov_base = (uint8_t*) m_iov[1].iov_base + (len - m_iov[0].iov_len);
+            m_iov[1].iov_len -= (len - m_iov[0].iov_len);
+            if(m_iov[0].iov_len) {
+                m_writeBuffer.retrieveAll();
+                m_iov[0].iov_len = 0;
+            }
+        } else {
+            m_iov[0].iov_base = (uint8_t*)m_iov[0].iov_base + len; 
+            m_iov[0].iov_len -= len; 
+            m_writeBuffer.retrieve(len);
         }
     }
 
-    return writeBytes;
+    return len;
 }
 
 bool HttpConnect::process()
 {
     m_request->Init();
-    if(m_readBuffer.readableBytes() <= 0) {
+    if(m_readBuffer.readAbleBytes() <= 0) {
         return false;
     }
     else if(m_request->parse(m_readBuffer)) {
@@ -94,15 +75,11 @@ bool HttpConnect::process()
     } else {
         m_response->Init(m_srcDir, m_request->path(), false, 400);
     }
-
-    m_response->MakeResponse(m_writeBuffer);
     
-    // 响应头
-    std::string tempData = m_writeBuffer.getReadableBytes();
-    m_tempBuff.assign(tempData.begin(), tempData.end());
+    m_response->MakeResponse(m_writeBuffer);
 
-    m_iov[0].iov_base = static_cast<void*>(m_tempBuff.data());;
-    m_iov[0].iov_len = m_tempBuff.size();
+    m_iov[0].iov_base = const_cast<char*>(m_writeBuffer.readAddress());
+    m_iov[0].iov_len = m_writeBuffer.readAbleBytes();
     m_iovCnt = 1;
 
     // 文件
@@ -113,4 +90,17 @@ bool HttpConnect::process()
     }
     LOG_DEBUG("filesize:%d, %d to %d", m_response->FileLen() , m_iovCnt, toWriteBytes());
     return true;
+}
+void HttpConnect::clearResource()
+{
+    m_fd = -1;
+    m_request->Init();
+}
+
+void HttpConnect::closeClient()
+{
+    m_response->UnmapFile();
+    m_isClosed = true;
+    close(m_fd);
+    LOG_INFO("Client [%d] quit", m_fd);
 }

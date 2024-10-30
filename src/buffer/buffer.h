@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <vector>
 #include <unistd.h>
@@ -17,6 +18,7 @@ public:
     std::string getByEndBytes();
     size_t getCurBufferSize() const {return m_buffer.size() - 1;}
     size_t readableBytes() const;
+    void reset() {m_readPos = m_writePos = 0;}
 
 private:
     std::vector<char> m_buffer;

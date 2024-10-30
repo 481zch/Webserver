@@ -3,6 +3,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <string.h>
 #include <unordered_map>
 #include <iostream>
 
@@ -11,7 +12,6 @@
 #include "http/httpConnect.h"
 #include "timer/heapTimer.h"
 #include "log/log.h"
-#include "ssl/ssl.h"
 #include "epoller.h"
 
 class Webserver {
@@ -19,8 +19,7 @@ public:
     Webserver(int threadNum = 10, int connectNum = 10, size_t objectNum = 10, 
               int port = 1317, int sqlPort = 3306, int redisPort = 6379, const char* host = "192.168.19.133",
               const char* dbName = "webserverDB", const char* sqlUser = "root", const char* sqlPwd = "123456",
-              int timeoutMS = 60000, int MAX_FD = 65535, size_t userCount = 0,
-              const char* certFile = "/project/webserver/sslCertFile/certFile.pem", const char* keyFile = "/project/webserver/sslCertFile/keyFile.pem");
+              int timeoutMS = 60000, int MAX_FD = 65535, size_t userCount = 0);
     ~Webserver();
     void eventLoop();
     static void setCloseServer(int) {m_stop = true;}
@@ -33,7 +32,6 @@ private:
 
     HeapTimer* m_timer;
     Epoller* m_epoller;
-    SSLServer* m_SSL;
 
     static std::atomic<bool> m_stop;
     int m_port;
@@ -51,16 +49,15 @@ private:
     int setFdNonBlock(int fd);
     void initEventMode();
     void extentTime(HttpConnect* client);
-    void initRescourceDir();
 
     void dealListen();
-    void closeConn(HttpConnect* client);
+    void closeConn(const std::string& message, HttpConnect* client);
     void dealRead(HttpConnect* client);
     void dealWrite(HttpConnect* client);
     void onProcess(HttpConnect* client);
     void sendError(int fd, const char* info);
 
-    void addClient(int fd, sockaddr_in addr, SSL* ssl);
+    void addClient(int fd, sockaddr_in addr);
     void onRead(HttpConnect* client);
     void onWrite(HttpConnect* client);
 };

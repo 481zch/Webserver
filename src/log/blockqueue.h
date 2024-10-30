@@ -84,7 +84,7 @@ inline void BlockQueue<T>::flush()
 {
     std::unique_lock<std::mutex> lock(m_mtx);
     while (!m_deq.empty()) {
-        m_condConsumer.notify_one();  // 强制通知消费
+        m_condConsumer.notify_one();
     }
 }
 

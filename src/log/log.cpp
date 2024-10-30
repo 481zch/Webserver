@@ -73,13 +73,13 @@ void Log::write(int level, const char *format, ...)
         std::unique_lock<std::mutex> lock(m_mtx);
         ++m_lineCount;
         
-        m_buff.Append(temp.transToString());
+        m_buff.append(temp.transToString());
         appendLogLevelTitle(level);
         vsnprintf(message, sizeof(message), format, args);
-        m_buff.Append(message);
-        m_buff.Append("\n");
+        m_buff.append(message);
+        m_buff.append("\n");
 
-        m_deque->push_back(m_buff.getReadableBytes());
+        m_deque->push_back(m_buff.getReadAbleBytes());
     }
     va_end(args);
 }
@@ -88,19 +88,19 @@ void Log::appendLogLevelTitle(int level)
 {
     switch(level) {
     case 0:
-        m_buff.Append("[debug]: ", 9);
+        m_buff.append("[debug]: ", 9);
         break;
     case 1:
-        m_buff.Append("[info] : ", 9);
+        m_buff.append("[info] : ", 9);
         break;
     case 2:
-        m_buff.Append("[warn] : ", 9);
+        m_buff.append("[warn] : ", 9);
         break;
     case 3:
-        m_buff.Append("[error]: ", 9);
+        m_buff.append("[error]: ", 9);
         break;
     default:
-        m_buff.Append("[info] : ", 9);
+        m_buff.append("[info] : ", 9);
         break;
     }
 }

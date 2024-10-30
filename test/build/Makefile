@@ -123,32 +123,32 @@ tests/fast:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
 
-code/test_buffer.o: code/test_buffer.cpp.o
+code/test_linear_buffer.o: code/test_linear_buffer.cpp.o
 
-.PHONY : code/test_buffer.o
+.PHONY : code/test_linear_buffer.o
 
 # target to build an object file
-code/test_buffer.cpp.o:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_buffer.cpp.o
-.PHONY : code/test_buffer.cpp.o
+code/test_linear_buffer.cpp.o:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_linear_buffer.cpp.o
+.PHONY : code/test_linear_buffer.cpp.o
 
-code/test_buffer.i: code/test_buffer.cpp.i
+code/test_linear_buffer.i: code/test_linear_buffer.cpp.i
 
-.PHONY : code/test_buffer.i
+.PHONY : code/test_linear_buffer.i
 
 # target to preprocess a source file
-code/test_buffer.cpp.i:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_buffer.cpp.i
-.PHONY : code/test_buffer.cpp.i
+code/test_linear_buffer.cpp.i:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_linear_buffer.cpp.i
+.PHONY : code/test_linear_buffer.cpp.i
 
-code/test_buffer.s: code/test_buffer.cpp.s
+code/test_linear_buffer.s: code/test_linear_buffer.cpp.s
 
-.PHONY : code/test_buffer.s
+.PHONY : code/test_linear_buffer.s
 
 # target to generate assembly for a file
-code/test_buffer.cpp.s:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_buffer.cpp.s
-.PHONY : code/test_buffer.cpp.s
+code/test_linear_buffer.cpp.s:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/code/test_linear_buffer.cpp.s
+.PHONY : code/test_linear_buffer.cpp.s
 
 project/webserver/src/buffer/buffer.o: project/webserver/src/buffer/buffer.cpp.o
 
@@ -176,6 +176,33 @@ project/webserver/src/buffer/buffer.s: project/webserver/src/buffer/buffer.cpp.s
 project/webserver/src/buffer/buffer.cpp.s:
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/buffer/buffer.cpp.s
 .PHONY : project/webserver/src/buffer/buffer.cpp.s
+
+project/webserver/src/buffer/linearBuffer.o: project/webserver/src/buffer/linearBuffer.cpp.o
+
+.PHONY : project/webserver/src/buffer/linearBuffer.o
+
+# target to build an object file
+project/webserver/src/buffer/linearBuffer.cpp.o:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/buffer/linearBuffer.cpp.o
+.PHONY : project/webserver/src/buffer/linearBuffer.cpp.o
+
+project/webserver/src/buffer/linearBuffer.i: project/webserver/src/buffer/linearBuffer.cpp.i
+
+.PHONY : project/webserver/src/buffer/linearBuffer.i
+
+# target to preprocess a source file
+project/webserver/src/buffer/linearBuffer.cpp.i:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/buffer/linearBuffer.cpp.i
+.PHONY : project/webserver/src/buffer/linearBuffer.cpp.i
+
+project/webserver/src/buffer/linearBuffer.s: project/webserver/src/buffer/linearBuffer.cpp.s
+
+.PHONY : project/webserver/src/buffer/linearBuffer.s
+
+# target to generate assembly for a file
+project/webserver/src/buffer/linearBuffer.cpp.s:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/project/webserver/src/buffer/linearBuffer.cpp.s
+.PHONY : project/webserver/src/buffer/linearBuffer.cpp.s
 
 project/webserver/src/log/log.o: project/webserver/src/log/log.cpp.o
 
@@ -240,12 +267,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... tests"
-	@echo "... code/test_buffer.o"
-	@echo "... code/test_buffer.i"
-	@echo "... code/test_buffer.s"
+	@echo "... code/test_linear_buffer.o"
+	@echo "... code/test_linear_buffer.i"
+	@echo "... code/test_linear_buffer.s"
 	@echo "... project/webserver/src/buffer/buffer.o"
 	@echo "... project/webserver/src/buffer/buffer.i"
 	@echo "... project/webserver/src/buffer/buffer.s"
+	@echo "... project/webserver/src/buffer/linearBuffer.o"
+	@echo "... project/webserver/src/buffer/linearBuffer.i"
+	@echo "... project/webserver/src/buffer/linearBuffer.s"
 	@echo "... project/webserver/src/log/log.o"
 	@echo "... project/webserver/src/log/log.i"
 	@echo "... project/webserver/src/log/log.s"

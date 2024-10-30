@@ -9,7 +9,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <stdarg.h>
-#include "buffer/buffer.h"
+#include "buffer/linearBuffer.h"
 #include "blockqueue.h"
 
 /*
@@ -54,7 +54,7 @@ public:
     void write(int level, const char* format, ...);
 
 private:
-    CircleBuffer m_buff;
+    LinearBuffer m_buff;
     FILE* m_fp;
     std::unique_ptr<BlockQueue<std::string>> m_deque;
     std::unique_ptr<std::thread> m_writeThread;

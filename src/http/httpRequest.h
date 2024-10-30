@@ -19,7 +19,7 @@ public:
     ~HttpRequest() = default;
 
     void Init();
-    bool parse(CircleBuffer& buff);
+    bool parse(LinearBuffer& buff);
 
     std::string path() const;
     std::string& path();
@@ -49,4 +49,5 @@ private:
     void ParseFromUrlencoded_();                        // 从url种解析编码
 
     bool UserVerify(const std::string& name, const std::string& pwd, bool isLogin);  // 用户验证
+    int ConverHex(char ch);
 };

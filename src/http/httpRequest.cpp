@@ -3,7 +3,9 @@
 
 using namespace std;
 
-// 网页名称，和一般的前端跳转不同，这里需要将请求信息放到后端来验证一遍再上传（和小组成员还起过争执）
+// 在解析错误的时候定位bug
+std::string checkData;
+
 const unordered_set<string> HttpRequest::DEFAULT_HTML {
     "/index", "/register", "/login", "/welcome", "/video", "/picture",
 };
@@ -21,37 +23,42 @@ HttpRequest::HttpRequest(MySQLConnectionPool* mysql, RedisConnectionPool* redis)
     m_redis = redis;
 }
 
-// 初始化操作，一些清零操作
 void HttpRequest::Init() {
-    state_ = REQUEST_LINE;  // 初始状态
+    state_ = REQUEST_LINE;
     method_ = path_ = version_= body_ = "";
     header_.clear();
     post_.clear();
 }
 
-// 解析处理
-bool HttpRequest::parse(CircleBuffer& buff) {
-    const char END[] = "\r\n";
-    if(buff.readableBytes() == 0)   // 没有可读的字节
+bool HttpRequest::parse(LinearBuffer& buff) {
+    std::string END = "\r\n";
+    if(buff.readAbleBytes() == 0)
         return false;
-    // 读取数据开始
-    while(buff.readableBytes() && state_ != FINISH) {
+    checkData = buff.justGetData();
+
+    while(buff.readAbleBytes() && state_ != FINISH) {
         int *Errno = 0;
-        string line = buff.getByEndBytes();
+        string line;
+        // 请求体的后面部分并没有结束符号
+        if (state_ == BODY) {
+            line  = buff.getDataByLength(stoi(header_["Content-Length"]));
+        } else {
+            line = buff.getByEndFlag(END);
+        }
+        
         switch (state_)
         {
         case REQUEST_LINE:
-            // 解析错误
             if(!ParseRequestLine_(line)) {
                 return false;
             }
-            ParsePath_();   // 解析路径
+            ParsePath_();
             break;
         case HEADERS:
             ParseHeader_(line);
-            // 下面的if是说明没有剩余的可读数据了
-            if(buff.readableBytes() <= 2) {  // 说明是get请求，后面为\r\n
-                state_ = FINISH;   // 提前结束
+            if(buff.readAbleBytes() <= 2) {
+                state_ = FINISH;
+                buff.getReadAbleBytes();
             }
             break;
         case BODY:
@@ -60,33 +67,27 @@ bool HttpRequest::parse(CircleBuffer& buff) {
         default:
             break;
         }
-        // if(lineend == buff.BeginWrite()) {  // 读完了
-        //     buff.RetrieveAll();
-        //     break;
-        // }
-        // buff.RetrieveUntil(lineend + 2);        // 跳过回车换行
 
     }
+    checkData = "";
     LOG_DEBUG("[%s], [%s], [%s]", method_.c_str(), path_.c_str(), version_.c_str());
     return true;
 }
 
 bool HttpRequest::ParseRequestLine_(const string& line) {
     regex patten("^([^ ]*) ([^ ]*) HTTP/([^ ]*)$");
-    smatch Match;   // 用来匹配patten得到结果
-    // 在匹配规则中，以括号()的方式来划分组别 一共三个括号 [0]表示整体
-    if(regex_match(line, Match, patten)) {  // 匹配指定字符串整体是否符合
+    smatch Match;
+    if(regex_match(line, Match, patten)) {
         method_ = Match[1];
         path_ = Match[2];
         version_ = Match[3];
         state_ = HEADERS;
         return true;
     }
-    LOG_ERROR("RequestLine Error, line is: %s", line);
+    LOG_ERROR("RequestLine Error, Error meesage is: %s", checkData);
     return false;
 }
 
-// 解析路径，统一一下path名称,方便后面解析资源
 void HttpRequest::ParsePath_() {
     if(path_ == "/") {
         path_ = "/index.html";
@@ -102,7 +103,7 @@ void HttpRequest::ParseHeader_(const string& line) {
     smatch Match;
     if(regex_match(line, Match, patten)) {
         header_[Match[1]] = Match[2];
-    } else {    // 匹配失败说明首部行匹配完了，状态变化
+    } else {
         state_ = BODY;
     }
 }
@@ -110,20 +111,18 @@ void HttpRequest::ParseHeader_(const string& line) {
 void HttpRequest::ParseBody_(const string& line) {
     body_ = line;
     ParsePost_();
-    state_ = FINISH;    // 状态转换为下一个状态
+    state_ = FINISH;
     LOG_DEBUG("Body:%s, len:%d", line.c_str(), line.size());
 }
 
-// 处理post请求
 void HttpRequest::ParsePost_() {
-    // 用于表单提交的格式
     if(method_ == "POST" && header_["Content-Type"] == "application/x-www-form-urlencoded") {
-        ParseFromUrlencoded_();     // POST请求体示例
-        if(DEFAULT_HTML_TAG.count(path_)) { // 如果是登录/注册的path
+        ParseFromUrlencoded_();
+        if(DEFAULT_HTML_TAG.count(path_)) {
             int tag = DEFAULT_HTML_TAG.find(path_)->second; 
             LOG_DEBUG("Tag:%d", tag);
             if(tag == 0 || tag == 1) {
-                bool isLogin = (tag == 1);  // 为1则是登录
+                bool isLogin = (tag == 1);
                 if(UserVerify(post_["username"], post_["password"], isLogin)) {
                     path_ = "/welcome.html";
                 } 
@@ -138,13 +137,47 @@ void HttpRequest::ParsePost_() {
 // 从url中解析编码
 // 这样写也很不严谨，对于特殊符号编码的后期数据库查询有一些问题
 void HttpRequest::ParseFromUrlencoded_() {
-    auto [first, second] = split(body_, '&');
-    auto [a, username] = split(first, '=');
-    auto [b, password] = split(second, '=');
-    post_[username] = password;
+    if(body_.size() == 0) { return; }
+
+    string key, value;
+    int num = 0;
+    int n = body_.size();
+    int i = 0, j = 0;
+
+    for(; i < n; i++) {
+        char ch = body_[i];
+        switch (ch) {
+        case '=':
+            key = body_.substr(j, i - j);
+            j = i + 1;
+            break;
+        case '+':
+            body_[i] = ' ';
+            break;
+        case '%':
+            num = ConverHex(body_[i + 1]) * 16 + ConverHex(body_[i + 2]);
+            body_[i + 2] = num % 10 + '0';
+            body_[i + 1] = num / 10 + '0';
+            i += 2;
+            break;
+        case '&':
+            value = body_.substr(j, i - j);
+            j = i + 1;
+            post_[key] = value;
+            LOG_DEBUG("%s = %s", key.c_str(), value.c_str());
+            break;
+        default:
+            break;
+        }
+    }
+    assert(j <= i);
+    if(post_.count(key) == 0 && j < i) {
+        value = body_.substr(j, i - j);
+        post_[key] = value;
+    }
 }
 
-// 需要重写，加入Redis缓存
+// 加入redis缓存
 // 为了保证数据的一致性，对于读数据，使用redis + mysql，而对于写数据，只使用mysql
 bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin) 
 {
@@ -154,6 +187,8 @@ bool HttpRequest::UserVerify(const string &name, const string &pwd, bool isLogin
         LOG_ERROR("Redis connection error!");
         return false;
     }
+    
+    LOG_INFO("About database, is login:%s", isLogin ? "true" : "false");
 
     std::string redisCmd = "GET " + name;
     redisReply* reply = (redisReply*)redisCommand(redisConn, redisCmd.c_str());
@@ -249,6 +284,15 @@ std::string HttpRequest::method() const {
 
 std::string HttpRequest::version() const {
     return version_;
+}
+
+int HttpRequest::ConverHex(char ch) 
+{
+    if(ch >= 'A' && ch <= 'F') 
+        return ch -'A' + 10;
+    if(ch >= 'a' && ch <= 'f') 
+        return ch -'a' + 10;
+    return ch;
 }
 
 

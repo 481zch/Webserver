@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/project/webserver/src/buffer/buffer.cpp" "/project/webserver/build/CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o"
+  "/project/webserver/src/buffer/linearBuffer.cpp" "/project/webserver/build/CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o"
   "/project/webserver/src/http/httpConnect.cpp" "/project/webserver/build/CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o"
   "/project/webserver/src/http/httpRequest.cpp" "/project/webserver/build/CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o"
   "/project/webserver/src/http/httpResponse.cpp" "/project/webserver/build/CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o"

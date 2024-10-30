@@ -70,9 +70,22 @@ CMakeFiles/webserver.dir/src/buffer/buffer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/webserver.dir/src/buffer/buffer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/src/buffer/buffer.cpp -o CMakeFiles/webserver.dir/src/buffer/buffer.cpp.s
 
+CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o: CMakeFiles/webserver.dir/flags.make
+CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o: ../src/buffer/linearBuffer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o -c /project/webserver/src/buffer/linearBuffer.cpp
+
+CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /project/webserver/src/buffer/linearBuffer.cpp > CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.i
+
+CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /project/webserver/src/buffer/linearBuffer.cpp -o CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.s
+
 CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o: ../src/http/httpConnect.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o -c /project/webserver/src/http/httpConnect.cpp
 
 CMakeFiles/webserver.dir/src/http/httpConnect.cpp.i: cmake_force
@@ -85,7 +98,7 @@ CMakeFiles/webserver.dir/src/http/httpConnect.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o: ../src/http/httpRequest.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o -c /project/webserver/src/http/httpRequest.cpp
 
 CMakeFiles/webserver.dir/src/http/httpRequest.cpp.i: cmake_force
@@ -98,7 +111,7 @@ CMakeFiles/webserver.dir/src/http/httpRequest.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o: ../src/http/httpResponse.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o -c /project/webserver/src/http/httpResponse.cpp
 
 CMakeFiles/webserver.dir/src/http/httpResponse.cpp.i: cmake_force
@@ -111,7 +124,7 @@ CMakeFiles/webserver.dir/src/http/httpResponse.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/log/log.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/log/log.cpp.o: ../src/log/log.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/webserver.dir/src/log/log.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/webserver.dir/src/log/log.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/log/log.cpp.o -c /project/webserver/src/log/log.cpp
 
 CMakeFiles/webserver.dir/src/log/log.cpp.i: cmake_force
@@ -124,7 +137,7 @@ CMakeFiles/webserver.dir/src/log/log.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/main.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/webserver.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/webserver.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/main.cpp.o -c /project/webserver/src/main.cpp
 
 CMakeFiles/webserver.dir/src/main.cpp.i: cmake_force
@@ -137,7 +150,7 @@ CMakeFiles/webserver.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o: ../src/pool/connectPool.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/pool/connectPool.cpp.o -c /project/webserver/src/pool/connectPool.cpp
 
 CMakeFiles/webserver.dir/src/pool/connectPool.cpp.i: cmake_force
@@ -150,7 +163,7 @@ CMakeFiles/webserver.dir/src/pool/connectPool.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/server/epoller.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/server/epoller.cpp.o: ../src/server/epoller.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/webserver.dir/src/server/epoller.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/webserver.dir/src/server/epoller.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/server/epoller.cpp.o -c /project/webserver/src/server/epoller.cpp
 
 CMakeFiles/webserver.dir/src/server/epoller.cpp.i: cmake_force
@@ -163,7 +176,7 @@ CMakeFiles/webserver.dir/src/server/epoller.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/server/webserver.cpp.o: ../src/server/webserver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/webserver.dir/src/server/webserver.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/webserver.dir/src/server/webserver.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/server/webserver.cpp.o -c /project/webserver/src/server/webserver.cpp
 
 CMakeFiles/webserver.dir/src/server/webserver.cpp.i: cmake_force
@@ -176,7 +189,7 @@ CMakeFiles/webserver.dir/src/server/webserver.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o: ../src/ssl/ssl.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/ssl/ssl.cpp.o -c /project/webserver/src/ssl/ssl.cpp
 
 CMakeFiles/webserver.dir/src/ssl/ssl.cpp.i: cmake_force
@@ -189,7 +202,7 @@ CMakeFiles/webserver.dir/src/ssl/ssl.cpp.s: cmake_force
 
 CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o: CMakeFiles/webserver.dir/flags.make
 CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o: ../src/timer/heapTimer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o -c /project/webserver/src/timer/heapTimer.cpp
 
 CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.i: cmake_force
@@ -203,6 +216,7 @@ CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.s: cmake_force
 # Object files for target webserver
 webserver_OBJECTS = \
 "CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o" \
+"CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o" \
 "CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o" \
 "CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o" \
 "CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o" \
@@ -218,6 +232,7 @@ webserver_OBJECTS = \
 webserver_EXTERNAL_OBJECTS =
 
 ../bin/webserver: CMakeFiles/webserver.dir/src/buffer/buffer.cpp.o
+../bin/webserver: CMakeFiles/webserver.dir/src/buffer/linearBuffer.cpp.o
 ../bin/webserver: CMakeFiles/webserver.dir/src/http/httpConnect.cpp.o
 ../bin/webserver: CMakeFiles/webserver.dir/src/http/httpRequest.cpp.o
 ../bin/webserver: CMakeFiles/webserver.dir/src/http/httpResponse.cpp.o
@@ -230,7 +245,7 @@ webserver_EXTERNAL_OBJECTS =
 ../bin/webserver: CMakeFiles/webserver.dir/src/timer/heapTimer.cpp.o
 ../bin/webserver: CMakeFiles/webserver.dir/build.make
 ../bin/webserver: CMakeFiles/webserver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable ../bin/webserver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/project/webserver/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable ../bin/webserver"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/webserver.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

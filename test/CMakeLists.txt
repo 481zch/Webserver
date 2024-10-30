@@ -9,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 include_directories(../src)
 
 # 查找测试文件
-file(GLOB_RECURSE TEST_SRC_LIST "code/test_buffer.cpp")
+file(GLOB_RECURSE TEST_SRC_LIST "code/test_linear_buffer.cpp")
 
 # 查找项目实现文件
 file(GLOB_RECURSE LOG_SOURCES "../src/log/*.cpp")
